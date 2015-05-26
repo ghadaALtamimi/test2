@@ -1,0 +1,273 @@
+﻿textarea {
+    resize: none;
+}
+
+body {
+    background: url("/Images/free-flower-images-on-white-background-4.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+    direction: rtl;
+}
+
+form {
+    margin: 0 !important;
+}
+
+.bg_cover {
+    background-color: black;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    position: fixed;
+    z-index: -1;
+}
+
+#footer {
+    padding-top: 12px;
+    color: #777;
+}
+
+#shows-carousel {
+    height: 60vh;
+    overflow: hidden;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+    .navbar a:hover {
+        color: bisque !important;
+    }
+
+.navbar-header a {
+    color: bisque !important;
+}
+
+.carousel-caption {
+    font-size: 30px;
+    top: 0;
+}
+
+.welcome-footer {
+    border-top: 1px solid black;
+    padding-top: 10px;
+    color: white;
+    text-shadow: 0 1px 2px black;
+}
+
+.text-shadow {
+    text-shadow: 1px 1px 2px black;
+}
+
+.carousel-control {
+    color: bisque;
+}
+
+    .carousel-control:hover {
+        color: #e2671f;
+    }
+
+.carousel-indicators li {
+    background: bisque;
+    border-color: black;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.successMessage {
+    color: green;
+}
+
+.button-grey {
+    color: grey;
+    background-color: darkgray;
+}
+
+.button-pink {
+    color: darkgray;
+    background-color: bisque;
+}
+
+.button-color {
+    color: grey;
+    background-color: bisque;
+    font-weight: bold;
+}
+
+.white-text {
+    color: white;
+}
+
+#show-details {
+    margin-top: 10%;
+}
+
+.top-padding {
+    padding-top: 10px;
+}
+.top-buffer{
+     margin-top:20px; 
+
+}
+#ContentPlaceHolder1_SoldOutPic {
+    position: absolute;
+    float: right;
+    right: 0;
+    top: 0;
+    padding-top: 95px;
+    padding-right: 15px;
+}
+
+
+select {
+    color: black;
+}
+
+.modal-header {
+    background-color: bisque; /* #FFCC99 /*f0ad4e; /*orange color*/
+}
+
+.panel-heading {
+    background-color: bisque !important;
+}
+
+    .panel-heading h3 {
+        margin: 0;
+    }
+
+.modal-content {
+    overflow: hidden;
+}
+
+#LoginBtn {
+    color: #333;
+    border-color: #333;
+}
+
+#welcome-panel {
+    background-color: transparent;
+}
+
+#welcome-size {
+    margin: auto;
+    color: orange;
+    position: relative;
+}
+
+.transparent-box {
+    background-color: #efe7e7;
+    opacity: 0.6;
+    filter: alpha(opacity=80);
+}
+
+    .transparent-box h1 {
+        color: orange;
+        opacity: 1;
+    }
+
+.panel-size {
+    /* use for forms */
+    background: rgba(0, 0, 0, 0.1);
+    padding-left: 25px;
+    padding-top: 10px;
+    border-color: none;
+}
+
+.panel-profile {
+    /* use for profile, my account */
+    background: rgba(0, 0, 0, 0.1);
+    padding-left: 25px;
+    padding-top: 10px;
+}
+
+.font-panel {
+    /*use for panel's font in MyAccount.aspx*/
+    font-size: 15px;
+    line-height: 30px;
+}
+
+    .font-panel .bold {
+        font-weight: bold;
+    }
+
+.body-center {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.body-content {
+    margin-top: 50px;
+}
+
+.panel-carousel {
+    /* use for profile, my account */
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px white solid;
+    color: white;
+}
+
+#description-div {
+    max-height: 43px;
+    overflow-y: scroll;
+    border: 1px lightgray solid;
+    padding-right: 15px;
+    margin-right: 0;
+}
+
+#ContentPlaceHolder1_RegPanel {
+    margin-top: 7px;
+}
+
+.panel {
+    margin-bottom: 5px;
+}
+
+#ShowImageDiv {
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.carousel-img {
+    width: 100vw;
+}
+
+#dateSearchPanel {
+    padding-bottom: 0;
+}
+
+.badge {
+    background: #e2671f;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.show-sellings {
+    top: 10px;
+    position: absolute;
+    right: 25px;
+}
+
+.default-curser {
+    cursor: default;
+}
+
+.edit-show-img {
+    max-height: 230px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/*# sourceMappingURL=Site.css.map */

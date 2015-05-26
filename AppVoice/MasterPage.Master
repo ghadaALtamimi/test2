@@ -1,0 +1,118 @@
+﻿<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="AppVoice.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="he" dir="rtl">
+<head runat="server">
+    <title>appVoice</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <link href="/CssDesign/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <meta charset="utf-8" />
+    <form id="form1" runat="server">
+
+        <nav class="navbar navbar-inverse">
+
+            <div class="container-fluid">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header navbar-right">
+                    <div style="float: left">
+                        <asp:HyperLink class="navbar-brand" ID="ProjectName" runat="server">AppVoice</asp:HyperLink>
+                    </div>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <asp:HyperLink ID="ContactUs" NavigateUrl="Pages/ContactUs.aspx" runat="server">צור קשר</asp:HyperLink></li>
+                        <li>
+                            <asp:HyperLink ID="About" NavigateUrl="/Pages/About.aspx" runat="server">אודות</asp:HyperLink></li>
+
+                        <li>
+                            <asp:HyperLink ID="Messages" NavigateUrl="/Pages/Messages.aspx" runat="server">הודעות <span class="badge" style="background-color: bisque; color: black" >4</span></asp:HyperLink></li>
+                        <li class="dropdown">
+                            <asp:HyperLink ID="Folders" href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" runat="server">תקיות<span class="caret"></span></asp:HyperLink>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/Pages/AllFolders.aspx">כל התקיות</a></li>
+                                <li class="divider"></li>
+                                <%if (Session["therapist_licenseId"] != null)
+                                  {
+                                      foreach (AppVoice.Folder f in allFolders)
+                                      { %>
+                                <li><a href="/Pages/AllExercises.aspx?folder=<%=f.Name %>&id=<%= f.Id %>"><%=f.Name %></a></li>
+                                   <% }
+                                  } %>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <asp:HyperLink ID="Activities" href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" runat="server">פעולות<span class="caret"></span></asp:HyperLink>
+                            <ul class="dropdown-menu" role="menu">
+                               
+                                <li><a href="/Pages/NewPatient.aspx">הוספת מטופל</a></li>
+                                <li><a href="/Pages/AllPatients.aspx">רשימת מטופלים</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Pages/AllFolders.aspx">צפייה והוספת תיקיות</a></li>
+                                <li><a href="/Pages/AllExercises.aspx">צפייה והוספת תרגילים</a></li>
+                                <li><a href="/Pages/NewExercise.aspx">הוספת תרגיל</a></li>
+                                <li><a href="/Pages/AssignedExercises.aspx">שיעורים משובצים</a></li>
+                                <li><a href="/Pages/SubmittedExercises.aspx">שיעורים שהוגשו</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <asp:HyperLink runat="server" ID="userNameLogin">כניסה למערכת</asp:HyperLink></li>
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-left" dir="ltr">
+                        <!--<li><a href="#">התנתק</a></li> -->
+                        <li>
+                            <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutClick"><span class="glyphicon glyphicon-log-out"></span>&nbsp התנתק</asp:LinkButton></li>
+                        <li>
+                            <div class="navbar-form" role="search">
+                                <asp:Panel ID="SearchPanel" runat="server" DefaultButton="SearchButton">
+                                    <div class="input-group">
+                                        <asp:TextBox ID="SearchTextBox" runat="server" class="form-control" placeholder="Search..."></asp:TextBox>
+                                        <span class="input-group-btn">
+
+                                            <asp:LinkButton class="btn button-grey" ID="SearchButton" runat="server">&nbsp<span class="glyphicon glyphicon-search"></span></asp:LinkButton>
+                                        </span>
+                                    </div>
+                                </asp:Panel>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END OF NAVBAR -->
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <meta charset="utf-8" />
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+
+    <!-- START OF FOOTER -->
+    <div class="navbar navbar-inverse navbar-fixed-bottom text-center" id="footer">
+        <footer>
+            <p>&copy; All rights reserved to appVoice <%: DateTime.Now.Year %></p>
+        </footer>
+    </div>
+    <!-- END OF FOOTER-->
+</body>
+</html>
