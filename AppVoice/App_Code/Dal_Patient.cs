@@ -165,7 +165,6 @@ namespace AppVoice
             MySqlCommand comm = con.CreateCommand();
             comm.CommandText = "INSERT INTO AssignedExercise(ExerciseId, PatientId, TherapistId) VALUES(@exerciseId, @patientId, @therapistId)";
             comm.Parameters.AddWithValue("@patientId", patientId);
-
             comm.Parameters.AddWithValue("@exerciseId", exerciseId);
             comm.Parameters.AddWithValue("@therapistId", therapistId);
 
