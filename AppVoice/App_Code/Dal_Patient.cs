@@ -159,13 +159,14 @@ namespace AppVoice
             return allPatients;
         }
 
-        public bool addAssignedExercise(string patientId, int exerciseId, string therapistId)
+        public bool addAssignedExercise(string patientId, int folderId, string folderName, int exerciseId, string therapistId)
         {
             con.Open();
             MySqlCommand comm = con.CreateCommand();
-            comm.CommandText = "INSERT INTO AssignedExercise(ExerciseId, PatientId, TherapistId) VALUES(@exerciseId, @patientId, @therapistId)";
+            comm.CommandText = "INSERT INTO AssignedExercise(ExerciseId, FolderId, FolderName, PatientId, TherapistId) VALUES(@exerciseId, @folderId, @folderName, @patientId, @therapistId)";
             comm.Parameters.AddWithValue("@patientId", patientId);
-
+            comm.Parameters.AddWithValue("@folderId", folderId);
+            comm.Parameters.AddWithValue("@folderName", folderName);
             comm.Parameters.AddWithValue("@exerciseId", exerciseId);
             comm.Parameters.AddWithValue("@therapistId", therapistId);
 
@@ -187,13 +188,15 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId;
-
+            int exerciseId, folderId;
+            string folderName;
 
             while (reader.Read())
             {
                 exerciseId = Convert.ToInt16(reader["ExerciseId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, patientId, therapistId);
+                folderId = Convert.ToInt16(reader["FolderId"]);
+                folderName = reader["FolderName"] + "";
+                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
 
                 allAssignedExercises.Add(assignedExercise);
             }

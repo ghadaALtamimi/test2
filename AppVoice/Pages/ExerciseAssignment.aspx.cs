@@ -30,6 +30,14 @@ namespace AppVoice
 
                     patientId = Request.QueryString["patientId"];
                     allExercises = bl_therapist.getAllExercises(therapistId);
+
+                    foreach (Exercise ex in allExercises)
+                    {
+                        string folderName = bl_therapist.getFolderNameByFolderId(ex.FolderId, therapistId);
+                        string exerciseName = ex.Title;
+                        CheckBoxList.Items.Add(new ListItem(exerciseName, "Ex"+ex.Id));
+                    }
+
                 }
                 else if (Request.QueryString["exerciseId"] != null)      // if its redirected from exercise account
                 {

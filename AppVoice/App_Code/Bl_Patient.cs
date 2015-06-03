@@ -39,9 +39,9 @@ namespace AppVoice
         {
             return dal_patient.getAllPatientsByLicenseId(licenseId);
         }
-        public bool addAssignedExercise(string patientId, int exerciseId, string therapistId)
+        public bool addAssignedExercise(string patientId, int folderId, string folderName, int exerciseId, string therapistId)
         {
-            return dal_patient.addAssignedExercise(patientId, exerciseId, therapistId);
+            return dal_patient.addAssignedExercise(patientId, folderId, folderName, exerciseId, therapistId);
         }
 
         public List<AssignedExercise> getAllAssignedExercisesByPatientId(string patientId, string therapistId)

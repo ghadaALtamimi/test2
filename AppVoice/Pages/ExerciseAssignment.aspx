@@ -9,6 +9,7 @@
         <!-- Patient Panel -->
         <asp:Panel runat="server" ID="PanelFromPatient">
             <h3><asp:Label runat="server" ID="PatientNameLabel"></asp:Label></h3>
+            <!-- <asp:checkboxlist style="align-items:inherit" runat="server" ID="CheckBoxList"></asp:checkboxlist> -->
             <table class="table text-center">
                 <tr class="text-center">
                     <th class ="text-center"><span class="glyphicon glyphicon-ok-circle"></span></th>
@@ -16,14 +17,17 @@
                     <th class="text-center"><span class="glyphicon glyphicon-envelope"></span>&nbsp סוג תרגיל</th>
                     <th class="text-center"><span class="glyphicon glyphicon-star"></span>&nbsp פעולות</th>
                 </tr>
-
+                  
                 <%foreach (AppVoice.Exercise e in allExercises)
                   {
                       string folderName = bl_therapist.getFolderNameByFolderId(e.FolderId, therapistId);
                       string exerciseName = e.Title;
                 %>
+              
                 <tr>
-                    <td><asp:CheckBox runat="server" ID="CheckBox"/></td>
+                    
+                    <td><asp:CheckBox runat="server" /></td>
+                    <td><%= CheckBoxList.Items %></td>
                     <td><%= exerciseName%></td>
                     <td><%= folderName%></td>
                     <td>

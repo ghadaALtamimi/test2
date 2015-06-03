@@ -338,7 +338,31 @@ namespace AppVoice
             return folderName;
         }
 
+        public int getFolderIdByExerciseId(int exerciseId, string therapistId)
+        {
+            con.Open();
 
+            int folderId = 0;
+
+            string getFolderId = "SELECT FolderId FROM Exercise WHERE ExerciseId = '" + exerciseId + "' AND TherapistId = '" + therapistId + "'";
+            MySqlCommand command = new MySqlCommand(getFolderId, con);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+
+            if (!reader.HasRows)
+            {
+                con.Close();
+                reader.Close();
+            }
+            else
+            {
+                folderId = Convert.ToInt16(reader["FolderId"]);
+            }
+            con.Close();
+            reader.Close();
+            return folderId;
+        }
         /*  ****************************     Exercise     ****************************  */
 
         public bool addExercise(Exercise exercise)
@@ -527,8 +551,10 @@ namespace AppVoice
         {
             con.Open();
             MySqlCommand comm = con.CreateCommand();
-            comm.CommandText = "INSERT INTO AssignedExercise(ExerciseId, PatientId, TherapistId) VALUES(@exerciseId, @patientId, @therapistId)";
+            comm.CommandText = "INSERT INTO AssignedExercise(ExerciseId, FolderId, FolderName, PatientId, TherapistId) VALUES(@exerciseId, @folderId, @folderName, @patientId, @therapistId)";
             comm.Parameters.AddWithValue("@exerciseId", assignedExercise.ExerciseId);
+            comm.Parameters.AddWithValue("@folderId", assignedExercise.FolderId);
+            comm.Parameters.AddWithValue("@folderName", assignedExercise.FolderName);
             comm.Parameters.AddWithValue("@patientId", assignedExercise.PatientId);
             comm.Parameters.AddWithValue("@therapistId", assignedExercise.TherapistId);
 
@@ -553,14 +579,16 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId;
-            string patientId;
+            int exerciseId, folderId;
+            string patientId, folderName;
 
             while (reader.Read())
             {
+                folderName = reader["FolderName"] + "";
                 patientId = reader["PatientId"] + "";
                 exerciseId = Convert.ToInt32(reader["ExerciseId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, patientId, therapistId);
+                folderId = Convert.ToInt32(reader["FolderId"]);
+                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();
@@ -578,14 +606,16 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId;
-            string therapistId;
+            int exerciseId, folderId;
+            string therapistId, folderName;
 
             while (reader.Read())
             {
+                folderName = reader["FolderName"] + "";
                 therapistId = reader["TherapistId"] + "";
                 exerciseId = Convert.ToInt32(reader["ExerciseId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, patientId, therapistId);
+                folderId = Convert.ToInt32(reader["FolderId"]);
+                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();
@@ -603,13 +633,16 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            string patientId, therapistId;
+            string patientId, therapistId, folderName;
+            int folderId;
 
             while (reader.Read())
             {
+                folderName = reader["FolderName"] + "";
                 therapistId = reader["TherapistId"] + "";
                 patientId = reader["PatientId"] + "";
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, patientId, therapistId);
+                folderId = Convert.ToInt32(reader["FolderId"]);
+                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();

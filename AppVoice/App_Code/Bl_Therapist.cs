@@ -77,6 +77,11 @@ namespace AppVoice
             return dal_therapist.getFolderIdByFolderName(folderName, therapistId);
         }
 
+        public int getFolderIdByExerciseId(int exerciseId, string therapistId)
+        {
+            return dal_therapist.getFolderIdByExerciseId(exerciseId, therapistId);
+        }
+
         /*  ****************************     Exercise     ****************************  */
 
         public List<Exercise> getAllExercisesByFolderId(string therapistId, int folderId)

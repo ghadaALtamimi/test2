@@ -31,13 +31,13 @@ namespace AppVoice {
         protected global::System.Web.UI.WebControls.Label PatientNameLabel;
         
         /// <summary>
-        /// CheckBox control.
+        /// CheckBoxList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox;
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxList;
         
         /// <summary>
         /// PanelFromExercise control.
