@@ -12,7 +12,7 @@ namespace AppVoice
 
         public Dal_Therapist()
         {
-            con = new MySqlConnection(DAL.STR);
+            con = new MySqlConnection(CONSTANT.STR);
         }
 
 

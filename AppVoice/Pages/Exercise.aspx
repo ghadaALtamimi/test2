@@ -71,7 +71,7 @@
             </div>
             <div class="text-center">
                 <asp:Button class="btn btn-success" ID="RegButton" runat="server" OnClick="OnSaveButton_Click" Text="הוסף משימה" />
-
+                <asp:Label runat="server" ID ="UrlLabel"></asp:Label>
                 <asp:Button class="btn btn-default" runat="server" OnClick="OnCancelButton_Click" Text="ביטול" />
             </div>
         </asp:Panel>

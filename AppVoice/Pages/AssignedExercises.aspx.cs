@@ -19,7 +19,7 @@ namespace AppVoice
         {
             if (Session["therapist_name"] != null && Session["therapist_licenseId"] != null)
             {
-                //allAssignedExercises = new List<AssignedExercise>();
+                allAssignedExercises = new List<AssignedExercise>();
                 therapistId = Session["therapist_licenseId"].ToString();
                 bl_therapist = new Bl_Therapist();
                 bl_patient = new Bl_Patient();
@@ -31,7 +31,7 @@ namespace AppVoice
                     exerciseId = Convert.ToInt16(Request.QueryString["exerciseId"]);
                     int folderId = bl_therapist.getFolderIdByExerciseId(exerciseId, therapistId);
                     folderName = bl_therapist.getFolderNameByFolderId(folderId, therapistId);
-                    if(bl_patient.addAssignedExercise(patientId, folderName, exerciseId, therapistId))
+                    if(bl_patient.addAssignedExercise(patientId, folderId, folderName, exerciseId, therapistId))
                     {
                         allAssignedExercises = bl_patient.getAllAssignedExercisesByPatientId(patientId, therapistId);
                     }
