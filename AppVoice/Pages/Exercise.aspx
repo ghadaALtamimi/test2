@@ -10,8 +10,8 @@
 
         <div class="col-md-8 col-md-offset-4 " style="font-size: large">
 
-            <!-- Exercise Description -->
-            <span class="glyphicon glyphicon-info-sign"></span>&nbsp תיאור התרגיל:   &nbsp&nbsp
+            <!-- Exercise Description <span class="glyphicon glyphicon-info-sign"></span>&nbsp-->
+            <h3>תיאור התרגיל:   &nbsp&nbsp</h3>
             <asp:Label ID="ExerciseDescriptionLabel" runat="server"></asp:Label>
 
             <asp:LinkButton class="btn btn-warning" ID="AddDescriptionButton" OnClick="OnAddExerciseDescription_Click" runat="server"><span class="glyphicon glyphicon-plus"></span>&nbsp הוסף תיאור תרגיל</asp:LinkButton>
@@ -25,14 +25,21 @@
 
         <table class="table text-right">
             <tr>
-                <th class="text-right"><span class="glyphicon glyphicon-user"></span>&nbsp כותרת משימה</th>
+                <th class="text-right">&nbsp כותרת משימה</th>
+                <th class="text-right">&nbsp תיאור משימה</th>
+                <th class="text-right">&nbsp שם קובץ</th>
+                <th class="text-right">&nbsp הערה</th>
             </tr>
 
             <%foreach (AppVoice.Task t in allTasks)
               {
+                  String name = t.ImagePath;
             %>
             <tr>
                 <td><%= t.Title %></td>
+                <td><%= t.Description%></td>
+                <td><a href="https://www.dropbox.com/home/Applications/AppVoice?preview=<%=t.ImagePath %>"><%=t.ImagePath %> </a> </td> 
+           <td><%= t.Comment %></td>
             </tr>
             <%} %>
         </table>
@@ -58,20 +65,20 @@
                     <li class="row top-buffer">
                         <span class="glyphicon glyphicon-user"></span>&nbsp הוספת קובץ
                         <asp:FileUpload ID="FileUploadUrl" CssClass="top-buffer" runat="server" Height="25px" />
-                       
+
                     </li>
 
                     <li class="row top-buffer">
                         <span class="glyphicon glyphicon-envelope"></span>&nbsp הערות
                             <asp:TextBox Class="form-control" ID="CommentTextBox" TextMode="MultiLine" runat="server"></asp:TextBox>
-                        
+
                     </li>
 
                 </ul>
             </div>
             <div class="text-center">
                 <asp:Button class="btn btn-success" ID="RegButton" runat="server" OnClick="OnSaveButton_Click" Text="הוסף משימה" />
-                <asp:Label runat="server" ID ="UrlLabel"></asp:Label>
+                <asp:Label runat="server" ID="UrlLabel"></asp:Label>
                 <asp:Button class="btn btn-default" runat="server" OnClick="OnCancelButton_Click" Text="ביטול" />
             </div>
         </asp:Panel>

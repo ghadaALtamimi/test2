@@ -28,33 +28,23 @@ namespace AppVoice
             if (Session["therapist_name"] != null && Session["therapist_licenseId"] != null)
             {
                
-             /*   if(String.IsNullOrEmpty(Properties.Settings.Default.AccessToken))       // checking for an access token in the application settings
-                {
-                    this.GetAccessToken();  // Access Token is empty. Receiving...
-                }
-                else
-                {
-                    this.GetFiles();    // Is not empty. Receiving a list of files
 
-                } */
-
-
-
-
-                therapistId = Session["therapist_licenseId"].ToString();
+                therapistId = Session["therapist_licenseId"].ToString();        // get therapist id
                 bl_therapist = new Bl_Therapist();
-                AddTaskPanel.Visible = false;
-                if (Request.QueryString["exercise"] != null && Request.QueryString["id"] != null)
+
+                    AddTaskPanel.Visible = false; // Panel of add task not visible
+
+                if (Request.QueryString["exercise"] != null && Request.QueryString["id"] != null)       // if we came from exercises folder and not patient folder
                 {
-                    exerciseTitle = Request.QueryString["exercise"];
-                    exerciseId = Convert.ToInt16(Request.QueryString["id"]);
+                    exerciseTitle = Request.QueryString["exercise"];        // get exercise title
+                    exerciseId = Convert.ToInt16(Request.QueryString["id"]);    // get exercise id
 
-                    exercise = bl_therapist.getExerciseDetails(exerciseId);
-                    allTasks = bl_therapist.getAllTasksByExerciseId(exerciseId);
+                    exercise = bl_therapist.getExerciseDetails(exerciseId);     // get exercise details
+                    allTasks = bl_therapist.getAllTasksByExerciseId(exerciseId);        // get all tasks of specific exercise
 
-                    ExerciseNameLabel.Text = exercise.Title;
-                    FolderNameLabel.Text = bl_therapist.getFolderNameByFolderId(exercise.FolderId, therapistId);
-                    ExerciseDescriptionLabel.Text = exercise.Description;
+                    ExerciseNameLabel.Text = exercise.Title;        // set name label of exercise
+                    FolderNameLabel.Text = bl_therapist.getFolderNameByFolderId(exercise.FolderId, therapistId);        // set folder name
+                    ExerciseDescriptionLabel.Text = exercise.Description;       // set description 
                     TaskTitleLabelError.Visible = false;
 
                     if(exercise.Description.Equals(""))     // if no description for this exercise  - add button
@@ -69,7 +59,7 @@ namespace AppVoice
                         AddDescriptionButton.Visible = false;
                         EditDescriptionButton.Visible = true;
                         SaveDescriptionButton.Visible = false;
-                        
+                        DescriptionTextBox.Visible = false;
                     }
                 }
             }
@@ -142,31 +132,24 @@ namespace AppVoice
                 taskTitle = TaskTitleTextBox.Text;
                 taskDescription = TaskDescriptionTextBox.Text;
                 taskComment = CommentTextBox.Text;
-                //taskUrl = FileUploadUrl.;
-                //string htmlFilePath = fupHtmlUpload.PostedFile.FileName;
-
-              //  var accessToken = new OAuthToken(CONSTANT.APP_KEY, CONSTANT.APP_SECRET);
+            
                 var accessToken = GetAccessToken();
                 var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
 
-                
+               // string aspNetFilePath = FileUploadUrl.PostedFile.FileName;
 
-
-
-                string aspNetFilePath = FileUploadUrl.PostedFile.FileName;
-
-                string filePath = FileUploadUrl.FileName;
-                string fileName = Server.MapPath(FileUploadUrl.FileName);//Path.Combine(Server.MapPath("."), filePath);
+                string fileName = FileUploadUrl.FileName;           // getting name of uploaded file
+                string filePath = Server.MapPath(FileUploadUrl.FileName);       // getting path of the upload file
 
                 
                 exerciseId = exercise.Id;
-                Task task = new Task(taskTitle, taskDescription, filePath, taskComment, exerciseId);
-                if(bl_therapist.addTask(task))
+                Task task = new Task(taskTitle, taskDescription, fileName, taskComment, exerciseId);        // creating new task for specific exercise
+                if(bl_therapist.addTask(task))      // if succeeded
                 {
                     //Page_Load(sender, e);
                     UrlLabel.Text = "FilePath: " + filePath + " -- FileName: " + fileName;
-                    FileUploadUrl.SaveAs(fileName);
-                    var file = api.UploadFile("dropbox", filePath, @fileName);           //  public FileSystemInfo UploadFile(string root, string path, string file)
+                    FileUploadUrl.SaveAs(filePath);
+                    var file = api.UploadFile("dropbox", fileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
                 }
             }
         }
