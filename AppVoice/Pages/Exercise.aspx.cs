@@ -27,7 +27,7 @@ namespace AppVoice
         {
             if (Session["therapist_name"] != null && Session["therapist_licenseId"] != null)
             {
-                var accessToken = GetAccessToken();
+               
              /*   if(String.IsNullOrEmpty(Properties.Settings.Default.AccessToken))       // checking for an access token in the application settings
                 {
                     this.GetAccessToken();  // Access Token is empty. Receiving...
@@ -79,35 +79,7 @@ namespace AppVoice
             }
         }
 
-      /*  private void GetFiles()
-        {
-            OAuthUtility.GetAsync("https://api.dropbox.com/1/metadata/auto/", new HttpParameterCollection 
-            {
-                { "path", this.CurrentPath }, 
-                { "accesss_token", Properties.Settings.Default.AccessToken}     // Access token should be transmitted in all requests
-            }//, callback: GetFiles_Result    // the callback method because the request is asynchronous
-            );
-        }
-/*
-        private void GetFiles_Result(RequestResult result)
-        {
-            if(InvokeRequired)
-            {
-
-            }
-        } */
-     /*   private void GetAccessToken()
-        {
-            var login = new DropboxLogin(CONSTANT.APP_KEY, CONSTANT.APP_SECRET);        // using app key and app secret to login in dropbox
-            if(login.IsSuccessfully)
-            {
-                Properties.Settings.Default["AccessToken"] = login.AccessToken.Value;
-                
-                Properties.Settings.Default.Save();
-            }
-           
-
-        } */
+      
 
         private static OAuthToken GetAccessToken()          // get authorization to access dropbox files
         {
@@ -173,27 +145,28 @@ namespace AppVoice
                 //taskUrl = FileUploadUrl.;
                 //string htmlFilePath = fupHtmlUpload.PostedFile.FileName;
 
+              //  var accessToken = new OAuthToken(CONSTANT.APP_KEY, CONSTANT.APP_SECRET);
                 var accessToken = GetAccessToken();
                 var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
 
-                //var file = api.UploadFile("dropbox", "1.txt", @"C:\1\1.txt");
+                
 
 
 
                 string aspNetFilePath = FileUploadUrl.PostedFile.FileName;
 
                 string filePath = FileUploadUrl.FileName;
+                string fileName = Server.MapPath(FileUploadUrl.FileName);//Path.Combine(Server.MapPath("."), filePath);
 
-                string fileName = Path.Combine(Server.MapPath("."), filePath);
-
-                UrlLabel.Text = "FilePath: " + filePath + " -- FileName: " + fileName;
-                FileUploadUrl.SaveAs(fileName);
                 
                 exerciseId = exercise.Id;
-                Task task = new Task(taskTitle, taskDescription, fileName, taskComment, exerciseId);
+                Task task = new Task(taskTitle, taskDescription, filePath, taskComment, exerciseId);
                 if(bl_therapist.addTask(task))
                 {
-                    Page_Load(sender, e);
+                    //Page_Load(sender, e);
+                    UrlLabel.Text = "FilePath: " + filePath + " -- FileName: " + fileName;
+                    FileUploadUrl.SaveAs(fileName);
+                    var file = api.UploadFile("dropbox", filePath, @fileName);           //  public FileSystemInfo UploadFile(string root, string path, string file)
                 }
             }
         }
