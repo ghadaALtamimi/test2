@@ -11,15 +11,19 @@ namespace AppVoice
     {
         public Bl_Therapist bl_therapist;
         public List<Folder> allFolders;
+        private string licenseId;
+        public int numOfUnreadMessages;
         protected void Page_Load(object sender, EventArgs e)
         {
 
             if (Session["therapist_name"] != null && Session["therapist_licenseId"] != null)                      // if therapist is connected
             {
                 bl_therapist = new Bl_Therapist();
+                licenseId = Session["therapist_licenseId"].ToString();
                 userNameLogin.NavigateUrl = "/Pages/TherapistAccount.aspx";
                 ProjectName.NavigateUrl = "/Pages/AllFolders.aspx";
-                allFolders = bl_therapist.getAllFolders(Session["therapist_licenseId"].ToString());
+                allFolders = bl_therapist.getAllFolders(licenseId);
+                numOfUnreadMessages = bl_therapist.getNumOfUnreadMessages(licenseId);
                 ShowTherapistNav();
             }
             else                                                        // if no therapist is connected
@@ -57,6 +61,15 @@ namespace AppVoice
             Activities.Visible = true;
             Folders.Visible = true;
             Messages.Visible = true;
+            if (numOfUnreadMessages > 0)
+            {
+                LabelNumMessages.Visible = true;
+                LabelNumMessages.Text = numOfUnreadMessages + "";
+            }
+            else
+            {
+                LabelNumMessages.Visible = false;
+            }
             About.Visible = false;
             SearchPanel.Visible = true;
             LogoutButton.Visible = true;

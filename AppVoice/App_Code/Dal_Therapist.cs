@@ -662,5 +662,62 @@ namespace AppVoice
 
             return allExercises;
         }
+
+        public int getNumOfUnreadMessages(string licenseId)
+        {
+            List<Message> allMessages = getAllMessages(licenseId);
+            int numOfUnreadMessages = 0;
+            foreach(Message m in allMessages)
+            {
+                if(!m.IsRead)
+                {
+                    numOfUnreadMessages++;
+                }
+            }
+            return numOfUnreadMessages;
+        }
+
+        public List<Message> getAllMessages(string licenseId)
+        {
+            con.Open();
+            List<Message> allMessages = new List<Message>();
+
+            String getAllMessages = "SELECT * FROM Messages WHERE MessageTo = '" + licenseId + "' ORDER BY MessageId DESC";
+
+            MySqlCommand command = new MySqlCommand(getAllMessages, con);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            int messageId;
+            string messageFrom, messageTo, messageText;
+            bool isRead;
+
+            while (reader.Read())
+            {
+                messageId = Convert.ToInt32(reader["MessageId"]);
+                messageFrom = reader["MessageTo"] + "";
+                messageTo = licenseId;
+                messageText = reader["Message"] + "";
+                isRead = Convert.ToBoolean(reader["IsRead"]);
+                Message message = new Message(messageId, messageFrom, messageTo, messageText, isRead);
+                allMessages.Add(message);
+            }
+            con.Close();
+            reader.Close();
+            return allMessages;
+        }
+
+        public List<Message> getUnreadMessages(string licenseId)
+        {
+            List<Message> allMessages = getAllMessages(licenseId);
+            List<Message> unreadMessages = new List<Message>();
+            foreach (Message m in allMessages)
+            {
+                if (!m.IsRead)
+                {
+                    unreadMessages.Add(m);
+                }
+            }
+            return unreadMessages;
+        }
     }
 }

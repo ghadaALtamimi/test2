@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AppVoice.Pages
+namespace AppVoice
 {
 
 

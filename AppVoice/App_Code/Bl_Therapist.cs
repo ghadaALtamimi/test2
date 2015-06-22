@@ -47,6 +47,23 @@ namespace AppVoice
             return dal_therapist.isPasswordOkay(licenseId, password);
         }
 
+        /*  ****************************     Message     ****************************  */
+
+        public List<Message> getAllMessages(string licenseId)
+        {
+            return dal_therapist.getAllMessages(licenseId);
+        }
+        public int getNumOfUnreadMessages(string licenseId)
+        {
+            return dal_therapist.getNumOfUnreadMessages(licenseId);
+        }
+
+        public List<Message> getUnreadMessages(string licenseId)
+        {
+            return dal_therapist.getUnreadMessages(licenseId);
+
+        }
+
         /*  ****************************     Folder     ****************************  */
 
         public Folder getFolderDetails(int folderId)

@@ -11,6 +11,8 @@ namespace AppVoice
 
         public const string BaseUri = "https://api.dropbox.com/" + ApiVersion + "/";
 
+        public const string ShareUri = "https://api.dropbox.com/" + ApiVersion + "/shares/auto/";
+
         public const string AuthorizeBaseUri = "https://www.dropbox.com/" + ApiVersion + "/";
 
         public const string ApiContentServer = "https://api-content.dropbox.com/" + ApiVersion + "/";

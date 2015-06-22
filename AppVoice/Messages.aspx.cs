@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace AppVoice.Pages
+namespace AppVoice
 {
     public partial class Messages : System.Web.UI.Page
     {

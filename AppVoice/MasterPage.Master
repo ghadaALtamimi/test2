@@ -42,7 +42,7 @@
                             <asp:HyperLink ID="About" NavigateUrl="/Pages/About.aspx" runat="server">אודות</asp:HyperLink></li>
 
                         <li>
-                            <asp:HyperLink ID="Messages" NavigateUrl="/Pages/Messages.aspx" runat="server">הודעות <span class="badge" style="background-color: bisque; color: black" >4</span></asp:HyperLink></li>
+                            <asp:HyperLink ID="Messages" NavigateUrl="/Pages/Messages.aspx" runat="server">הודעות <span class="badge" style="background-color: bisque; color: black" ><asp:Label runat="server" ID="LabelNumMessages"></asp:Label></span></asp:HyperLink></li>
                         <li class="dropdown">
                             <asp:HyperLink ID="Folders" href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" runat="server">תקיות<span class="caret"></span></asp:HyperLink>
                             <ul class="dropdown-menu" role="menu">

@@ -99,6 +99,7 @@
     <Content Include="App_Readme\Spring.Rest.txt" />
     <Content Include="App_Readme\Spring.Social.Core.txt" />
     <Content Include="App_Readme\Spring.Social.Dropbox.txt" />
+    <Content Include="Messages.aspx" />
     <Content Include="Pages\AssignedExercises.aspx" />
     <Content Include="Pages\ExerciseAssignment.aspx" />
     <Content Include="Pages\NewExercise.aspx" />
@@ -143,7 +144,6 @@
     <Content Include="Pages\AllFolders.aspx" />
     <Content Include="Pages\AllPatients.aspx" />
     <Content Include="Pages\ContactUs.aspx" />
-    <Content Include="Pages\Messages.aspx" />
     <Content Include="Pages\NewPatient.aspx" />
     <Content Include="Pages\SubmittedExercises.aspx" />
     <Content Include="Pages\TherapistAccount.aspx" />
@@ -163,6 +163,14 @@
     <Compile Include="DropboxRestApi.cs" />
     <Compile Include="File.cs" />
     <Compile Include="FileSystemInfo.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Messages.aspx.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Messages.aspx.designer.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
+    </Compile>
     <Compile Include="OAuth\OAuth.cs" />
     <Compile Include="OAuth\OAuthBase.cs" />
     <Compile Include="OAuth\OAuthToken.cs" />
@@ -266,13 +274,6 @@
     </Compile>
     <Compile Include="Pages\ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Messages.aspx.cs">
-      <DependentUpon>Messages.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\Messages.aspx.designer.cs">
-      <DependentUpon>Messages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\NewPatient.aspx.cs">
       <DependentUpon>NewPatient.aspx</DependentUpon>

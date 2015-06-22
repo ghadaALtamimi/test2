@@ -64,7 +64,7 @@ namespace AppVoice
         {
             string exerciseTitle, exerciseDescription;
 
-            if (TitleExerciseTextBox.Text.Equals(""))           // if title textbox is empty, do not add the exercise and return error message
+            if (TitleExerciseTextBox.Text.Equals(""))           // if title textbox is empty, do not add the exercise and return error messageText
             {
                 TitleExerciseLabelError.Visible = true;
             }
