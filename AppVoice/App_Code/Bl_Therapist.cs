@@ -125,6 +125,35 @@ namespace AppVoice
         {
             return dal_therapist.updateDescriptionExercise(exercise, description);
         }
+         public bool updateExercise(Exercise new_exercise)
+        {
+            return dal_therapist.updateExercise(new_exercise);
+        }
+
+        public bool updateImagePathFromExercise(Exercise exercise, string imagePath)
+         {
+             return dal_therapist.updateImagePathFromExercise(exercise, imagePath);
+         }
+        public bool updateFilePathFromExercise(Exercise exercise, string filePath)
+        {
+            return dal_therapist.updateFilePathFromExercise(exercise, filePath);
+        }
+        public bool updateTitleExercise(Exercise exercise, string title)
+        {
+            return dal_therapist.updateTitleExercise(exercise, title);
+        }
+        public bool updateLinkExercise(Exercise exercise, string link)
+        {
+            return dal_therapist.updateLinkExercise(exercise, link);
+        }
+        public bool deleteExercise(Exercise exercise)
+        {
+            return dal_therapist.deleteExercise(exercise);
+        }
+        public bool updateIsVideoExercise(Exercise exercise, int isVideo)
+        {
+            return dal_therapist.updateIsVideoExercise(exercise, isVideo);
+        }
 
         /*  ****************************     Task     ****************************  */
 
@@ -158,6 +187,8 @@ namespace AppVoice
         {
             return dal_therapist.getAllAssignedExercisesByExerciseId(exerciseId);
         }
+
+       
     }
 
 }

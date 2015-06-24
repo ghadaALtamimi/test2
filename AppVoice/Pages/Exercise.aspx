@@ -4,86 +4,91 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
-        <h2><span class="glyphicon glyphicon-file"></span>&nbsp&nbsp<asp:Label runat="server" ID="ExerciseNameLabel"></asp:Label></h2>
-        <h4><span class="glyphicon glyphicon-folder-open"></span>&nbsp&nbsp<asp:Label runat="server" ID="FolderNameLabel"></asp:Label></h4>
+        <div class="col-md-6 col-md-offset-6">
+            <h2><span class="glyphicon glyphicon-file"></span>&nbsp&nbsp<asp:Label runat="server" ID="ExerciseNameLabel"></asp:Label></h2>
+            <asp:TextBox CssClass="form-control" ID="ExerciseNameTextBox" runat="server"></asp:TextBox>
+            &nbsp&nbsp
+            <asp:Button class="btn btn-warning btn-xs" runat="server" ID="UpdateTitleButton" Text="עדכן כותרת" OnClick="OnUpdateTitleButton_Click" />
+            <asp:Button class="btn btn-success btn-xs" runat="server" ID="SaveTitleButton" Text="שמור כותרת" Visible="false" OnClick="OnSaveTitleButton_Click" />
+            <asp:Button class="btn btn-default btn-xs" runat="server" ID="CancelTitleButton" Text="ביטול" Visible="false" OnClick="OnCancelTitleButton_Click" />
+            <h4><span class="glyphicon glyphicon-folder-open"></span>&nbsp&nbsp<asp:Label runat="server" ID="FolderNameLabel"></asp:Label></h4>
+            <asp:Label class="errorMessage top-buffer" ID="TitleExerciseLabelError" CssClass="errorMessage" Visible="false" runat="server" Text="יש למלא שדה זה!"></asp:Label>
+            
 
 
-        <div class="col-md-8 col-md-offset-4 " style="font-size: large">
 
-            <!-- Exercise Description <span class="glyphicon glyphicon-info-sign"></span>&nbsp-->
-            <h3>תיאור התרגיל:   &nbsp&nbsp</h3>
-            <asp:Label ID="ExerciseDescriptionLabel" runat="server"></asp:Label>
+            <ul class="list-unstyled form-group">
+                <li class="row">
 
-            <asp:LinkButton class="btn btn-warning" ID="AddDescriptionButton" OnClick="OnAddExerciseDescription_Click" runat="server"><span class="glyphicon glyphicon-plus"></span>&nbsp הוסף תיאור תרגיל</asp:LinkButton>
-            <asp:LinkButton class="btn btn-warning" ID="EditDescriptionButton" OnClick="OnEditExerciseDescription_Click" runat="server"><span class="glyphicon glyphicon-wrench"></span>&nbsp עדכן תיאור תיקייה</asp:LinkButton>
-            <asp:LinkButton class="btn btn-success" ID="SaveDescriptionButton" OnClick="OnSaveExerciseDescription_Click" Visible="false" runat="server"><span class="glyphicon glyphicon-wrench"></span>&nbsp שמור שינויים</asp:LinkButton>
-            <asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="DescriptionTextBox"></asp:TextBox>
-            <asp:Label runat="server" ID="DescriptionLabel"></asp:Label>
+                    <h4><span class="glyphicon glyphicon-info-sign"></span>&nbsp תיאור תרגיל    </h4>
+                    <asp:Label runat="server" ID="DescriptionLabel" Text="אין הוראות לתרגיל זה"></asp:Label>
+                    <asp:TextBox CssClass="form-control" ID="DescriptionTextBox" runat="server"></asp:TextBox>
+                    &nbsp&nbsp
+                     <asp:Button class="btn btn-warning btn-xs" runat="server" ID="UpdateDescriptionButton" Text="עדכן הוראות התרגיל" OnClick="OnUpdateDescriptionButton_Click" />
+                    <asp:Button class="btn btn-success btn-xs" runat="server" ID="SaveDescriptionButton" Text="שמור הוראות לתרגיל" Visible="false" OnClick="OnSaveDescriptionButton_Click" />
+                    <asp:Button class="btn btn-default btn-xs" runat="server" ID="CancelDescriptionButton" Text="ביטול" Visible="false" OnClick="OnCancelDescriptionButton_Click" />
+                </li>
+
+                <li class="row top-buffer">
+
+                    <h4><span class="glyphicon glyphicon-link"></span>&nbsp לינק תרגיל                </h4>
+                    <asp:HyperLink runat="server" ID="LinkHyperLink"></asp:HyperLink>
+                    <asp:TextBox CssClass="form-control" ID="LinkTextBox" runat="server"></asp:TextBox>
+                    &nbsp&nbsp
+                     <asp:Button class="btn btn-warning btn-xs" runat="server" ID="UpdateLinkButton" Text="עדכן לינק" OnClick="OnUpdateLinkButton_Click" />
+                    <asp:Button class="btn btn-success btn-xs" runat="server" ID="SaveLinkButton" Text="שמור לינק" Visible="false" OnClick="OnSaveLinkButton_Click" />
+                    <asp:Button class="btn btn-default btn-xs" runat="server" ID="CancelLinkButton" Text="ביטול" Visible="false" OnClick="OnCancelLinkButton_Click" />
+                </li>
+
+                <li class="row top-buffer">
+
+                    <h4><span class="glyphicon glyphicon-picture"></span>&nbsp תמונה                </h4>
+                    <asp:Label runat="server" ID="ImageLabel" Text="אין תמונה לתרגיל זה">
+                    <%if (!exercise.ImagePath.Equals(""))
+                      { %>
+                       <a href="https://www.dropbox.com/home/Applications/AppVoice?preview=<%=exercise.ImagePath %>"><%=exercise.ImagePath %> </a>
+                       <%} %>
+                    </asp:Label>
+                    &nbsp&nbsp
+                    <asp:FileUpload ID="ImageUpload" CssClass="top-buffer" runat="server" Height="25px" />
+                    <asp:Button class="btn btn-warning btn-xs" runat="server" ID="UpdateImageButton" Text="עדכן תמונה" OnClick="OnUpdateImageButton_Click" />
+                    <asp:Button class="btn btn-danger btn-xs" runat="server" ID="DeleteImageButton" Text="מחק תמונה" OnClick="OnDeleteImageButton_Click" />
+                    <asp:Button class="btn btn-success btn-xs" runat="server" ID="SaveImageButton" Text="שמור תמונה" Visible="false" OnClick="OnSaveImageButton_Click" />
+                    <asp:Button class="btn btn-default btn-xs" runat="server" ID="CancelImageButton" Text="ביטול" Visible="false" OnClick="OnCancelImageButton_Click" />
+                </li>
+
+                <li class="row top-buffer">
+
+                    <h4><span class="glyphicon glyphicon-file"></span>&nbsp קובץ                </h4>
+                    <asp:Label runat="server" ID="FileLabel" Text="אין קובץ לתרגיל זה"> 
+                       <%if (!exercise.FilePath.Equals(""))
+                         { %>
+                       <a href="https://www.dropbox.com/home/Applications/AppVoice?preview=<%=exercise.FilePath %>"><%=exercise.FilePath %> </a>
+                       <%} %>
+                    </asp:Label>
+                    &nbsp&nbsp
+                     <asp:Button class="btn btn-warning btn-xs" runat="server" ID="UpdateFileButton" Text="עדכן קובץ" OnClick="OnUpdateFileButton_Click" />
+                    <asp:Button class="btn btn-danger btn-xs" runat="server" ID="DeleteFileButton" Text="מחק קובץ" OnClick="OnDeleteFileButton_Click" />
+                    <asp:Button class="btn btn-success btn-xs" runat="server" ID="SaveFileButton" Text="שמור קובץ" Visible="false" OnClick="OnSaveFileButton_Click" />
+                    <asp:Button class="btn btn-default btn-xs" runat="server" ID="CancelFileButton" Text="ביטול" Visible="false" OnClick="OnCancelFileButton_Click" />
+
+                    <asp:FileUpload ID="FileUpload" CssClass="top-buffer" runat="server" Height="25px" />
+                </li>
+                <li class="row top-buffer">
+                    <h4><span class="glyphicon glyphicon-facetime-video"></span>&nbsp הקלטת וידאו?                 
+                        <asp:CheckBox runat="server" OnCheckedChanged="OnCheckedChange"  ID="VideoCheckBox" />
+                    </h4>
+                </li>
+
+                <li class="row top-buffer">
+
+                    <asp:Label runat="server" ID="ErrorInUpdateLabel" CssClass="errorMessage" Visible="false" Text="שגיאה בעדכון פרטים. נסה שנית."></asp:Label>
+                    <asp:Button class="btn btn-success" runat="server" Text="סיום" ID="SaveUpdatesButton" Visible="false" OnClick="OnSaveUpdatesButton_Click" />
+                    <asp:Button class="btn btn-warning" runat="server" Text="עדכן פרטים" ID="UpdateButton" OnClick="OnUpdateButton_Click" />
+                    <asp:Button class="btn btn-danger" runat="server" Text="מחק תרגיל" ID="DeleteButton" OnClick="OnDeleteButton_Click" />
+
+                </li>
+            </ul>
         </div>
-        <h3><span class="glyphicon glyphicon-list-alt top-buffer"></span>&nbsp רשימת משימות&nbsp &nbsp
-          <asp:LinkButton class="btn btn-warning" OnClick="OnAddTask_Click" runat="server"><span class="glyphicon glyphicon-plus"></span>&nbsp הוסף משימה</asp:LinkButton></h3>
-
-        <table class="table text-right">
-            <tr>
-                <th class="text-right">&nbsp כותרת משימה</th>
-                <th class="text-right">&nbsp תיאור משימה</th>
-                <th class="text-right">&nbsp שם קובץ</th>
-                <th class="text-right">&nbsp הערה</th>
-            </tr>
-
-            <%foreach (AppVoice.Task t in allTasks)
-              {
-                  String name = t.ImagePath;
-            %>
-            <tr>
-                <td><%= t.Title %></td>
-                <td><%= t.Description%></td>
-                <td><a href="https://www.dropbox.com/home/Applications/AppVoice?preview=<%=t.ImagePath %>"><%=t.ImagePath %> </a> </td> 
-           <td><%= t.Comment %></td>
-            </tr>
-            <%} %>
-        </table>
-
-        <asp:Panel runat="server" ID="AddTaskPanel" Visible=" false">
-            <div class="col-md-6 col-md-offset-6">
-                <ul class="list-unstyled form-group">
-                    <li class="row">
-
-                        <span class="glyphicon glyphicon-info-sign"></span>&nbsp כותרת המשימה                
-                                <asp:TextBox class="form-control" ID="TaskTitleTextBox" runat="server"></asp:TextBox>
-                        <div class="col-md-4">
-                            <br />
-                            <asp:Label class="errorMessage" ID="TaskTitleLabelError" CssClass="errorMessage" Visible="false" runat="server" Text="יש למלא שדה זה!"></asp:Label>
-                        </div>
-                    </li>
-
-                    <li class="row">
-                        <span class="glyphicon glyphicon-user"></span>&nbsp תיאור המשימה                
-                                <asp:TextBox class="form-control" TextMode="MultiLine" ID="TaskDescriptionTextBox" runat="server"></asp:TextBox>
-                    </li>
-
-                    <li class="row top-buffer">
-                        <span class="glyphicon glyphicon-user"></span>&nbsp הוספת קובץ
-                        <asp:FileUpload ID="FileUploadUrl" CssClass="top-buffer" runat="server" Height="25px" />
-
-                    </li>
-
-                    <li class="row top-buffer">
-                        <span class="glyphicon glyphicon-envelope"></span>&nbsp הערות
-                            <asp:TextBox Class="form-control" ID="CommentTextBox" TextMode="MultiLine" runat="server"></asp:TextBox>
-
-                    </li>
-
-                </ul>
-            </div>
-            <div class="text-center">
-                <asp:Button class="btn btn-success" ID="RegButton" runat="server" OnClick="OnSaveButton_Click" Text="הוסף משימה" />
-                <asp:Label runat="server" ID="UrlLabel"></asp:Label>
-                <asp:Button class="btn btn-default" runat="server" OnClick="OnCancelButton_Click" Text="ביטול" />
-            </div>
-        </asp:Panel>
-        <asp:Button type="button" class="btn btn-danger top-buffer" ID="DeleteButton" runat="server" Text="מחק תרגיל"></asp:Button>
     </div>
-
-
 </asp:Content>

@@ -23,6 +23,7 @@
 
         <table class="table text-center">
             <tr class="text-center">
+                <th class="text-center"></th>
                 <th class="text-center"><span class="glyphicon glyphicon-user"></span>&nbsp שם תרגיל</th>
                 <th class="text-center"><span class="glyphicon glyphicon-envelope"></span>&nbsp סוג תרגיל</th>
             </tr>
@@ -32,6 +33,14 @@
                   string folderName1 = bl_therapist.getFolderNameByFolderId(e.FolderId, therapistId);
             %>
             <tr>
+                <%if (e.IsVideo)
+                  {%>
+                <td><span class="glyphicon glyphicon-facetime-video"></span></td>
+                <% }
+                  else
+                  {%>
+                <td></td>
+                <%} %>
                 <td><%= e.Title %></td>
                 <td><%= folderName1%></td>
                 <td>
@@ -63,8 +72,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        
-                            <asp:Button ID="YesButtonPopup" class="btn btn-danger" runat="server" Text="מחק תרגיל זה" />
+
+                        <asp:Button ID="YesButtonPopup" class="btn btn-danger" runat="server" Text="מחק תרגיל זה" />
                     </div>
 
                 </div>

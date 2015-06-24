@@ -372,11 +372,15 @@ namespace AppVoice
             // String addDetails = "INSERT INTO Folder VALUES('" + patient.PatientId + "','" + patient.FirstName + "','" + patient.LastName + "','" + patient.Mail + "','" + patient.PhoneNumber + "','" + patient.Address + "','"  + patient.Hmo + "','" + patient.Password + "','" + patient.TherapistId + "')";
             //  MySqlCommand command = new MySqlCommand(addDetails, con);
             MySqlCommand comm = con.CreateCommand();
-            comm.CommandText = "INSERT INTO Exercise(Title, FolderId, TherapistId, Description) VALUES(@title, @folderId, @therapistId, @description)";
+            comm.CommandText = "INSERT INTO Exercise(Title, FolderId, TherapistId, Description, Link, ImagePath, FilePath, IsVideo) VALUES(@title, @folderId, @therapistId, @description, @link, @imagePath, @filePath, @isVideo)";
             comm.Parameters.AddWithValue("@title", exercise.Title);
             comm.Parameters.AddWithValue("@description", exercise.Description);
             comm.Parameters.AddWithValue("@folderId", exercise.FolderId);
             comm.Parameters.AddWithValue("@therapistId", exercise.TherapistId);
+            comm.Parameters.AddWithValue("@imagePath", exercise.ImagePath);
+            comm.Parameters.AddWithValue("@filePath", exercise.FilePath);
+            comm.Parameters.AddWithValue("@isVideo", Convert.ToInt16(exercise.IsVideo));
+            comm.Parameters.AddWithValue("@link", exercise.Link);
 
             //  con.Close();
             if (comm.ExecuteNonQuery() > 0)
@@ -394,8 +398,10 @@ namespace AppVoice
         {
             con.Open();
 
-            string exerciseTitle, exerciseDescription, therapistId;
+            string exerciseTitle, exerciseDescription, therapistId, imagePath, filePath, link;
             int folderId;
+            bool isVideo;
+
             Exercise exercise = null;
 
             string getExercise = "SELECT * FROM Exercise WHERE ExerciseId = '" + exerciseId + "'";
@@ -416,7 +422,11 @@ namespace AppVoice
                 exerciseDescription = reader["Description"] + "";
                 therapistId = reader["TherapistId"] + "";
                 folderId = Convert.ToInt16(reader["FolderId"]);
-                exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId);
+                link = reader["Link"] + "";
+                imagePath = reader["ImagePath"] + "";
+                filePath = reader["FilePath"] + "";
+                isVideo = Convert.ToBoolean(reader["IsVideo"]);
+                exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId, link, imagePath, filePath, isVideo);
             }
             con.Close();
             reader.Close();
@@ -434,7 +444,8 @@ namespace AppVoice
             MySqlDataReader reader = command.ExecuteReader();
 
             int exerciseId;
-            string exerciseTitle, exerciseDescription;
+            string exerciseTitle, exerciseDescription, imagePath, filePath, link;
+            bool isVideo;
 
             while (reader.Read())
             {
@@ -442,7 +453,11 @@ namespace AppVoice
                 exerciseId = Convert.ToInt32(reader["ExerciseId"]);
                 exerciseTitle = reader["Title"] + "";
                 exerciseDescription = reader["Description"] + "";
-                Exercise exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId);
+                link = reader["Link"] + "";
+                imagePath = reader["ImagePath"] + "";
+                filePath = reader["FilePath"] + "";
+                isVideo = Convert.ToBoolean(reader["IsVideo"]);
+                Exercise exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId, link, imagePath, filePath, isVideo);
 
                 allExercises.Add(exercise);
             }
@@ -463,7 +478,8 @@ namespace AppVoice
             MySqlDataReader reader = command.ExecuteReader();
 
             int exerciseId, folderId;
-            string exerciseTitle, exerciseDescription;
+            string exerciseTitle, exerciseDescription, imagePath, filePath, link;
+            bool isVideo;
 
             while (reader.Read())
             {
@@ -472,7 +488,11 @@ namespace AppVoice
                 exerciseTitle = reader["Title"] + "";
                 exerciseDescription = reader["Description"] + "";
                 folderId = Convert.ToInt32(reader["FolderId"]);
-                Exercise exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId);
+                link = reader["Link"] + "";
+                imagePath = reader["ImagePath"] + "";
+                filePath = reader["FilePath"] + "";
+                isVideo = Convert.ToBoolean(reader["IsVideo"]);
+                Exercise exercise = new Exercise(exerciseId, exerciseTitle, exerciseDescription, folderId, therapistId, link, imagePath, filePath, isVideo);
 
                 allExercises.Add(exercise);
             }
@@ -486,6 +506,103 @@ namespace AppVoice
             con.Open();
             string updateDescription = "UPDATE Exercise SET Description = '" + description + "' WHERE ExerciseId = '" + exercise.Id + "'";
             MySqlCommand command = new MySqlCommand(updateDescription, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool updateExercise(Exercise new_exercise)
+        {
+            con.Open();
+            string updateDescription = "UPDATE Exercise SET Title = '" + new_exercise.Title + "', Description = '" + new_exercise.Description + "', ImagePath = '" + new_exercise.ImagePath + "', FilePath = '" + new_exercise.FilePath + "', IsVideo = '" + Convert.ToInt16(new_exercise.IsVideo) + "', Link = '" + new_exercise.Link + "' WHERE ExerciseId = '" + new_exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateDescription, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool updateImagePathFromExercise(Exercise exercise, string imagePath)
+        {
+            con.Open();
+            string updateImage = "UPDATE Exercise SET ImagePath = '" + imagePath + "' WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateImage, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool updateFilePathFromExercise(Exercise exercise, string filePath)
+        {
+            con.Open();
+            string updateFile = "UPDATE Exercise SET FilePath = '" + filePath + "' WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateFile, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool updateTitleExercise(Exercise exercise, string title)
+        {
+            con.Open();
+            string updateTitle = "UPDATE Exercise SET Title = '" + title + "' WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateTitle, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+        public bool updateLinkExercise(Exercise exercise, string link)
+        {
+            con.Open();
+            string updateLink = "UPDATE Exercise SET Link = '" + link + "' WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateLink, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool updateIsVideoExercise(Exercise exercise, int isVideo)
+        {
+            con.Open();
+            string updateVideo = "UPDATE Exercise SET IsVideo = '" + isVideo + "' WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(updateVideo, con);
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool deleteExercise(Exercise exercise)
+        {
+            con.Open();
+            string deleteEx = "DELETE FROM Exercise WHERE ExerciseId = '" + exercise.Id + "'";
+            MySqlCommand command = new MySqlCommand(deleteEx, con);
             if (command.ExecuteNonQuery() > 0)
             {
                 con.Close();
@@ -662,7 +779,7 @@ namespace AppVoice
 
             return allExercises;
         }
-
+        /*  ****************************     Messages     ****************************  */
         public int getNumOfUnreadMessages(string licenseId)
         {
             List<Message> allMessages = getAllMessages(licenseId);
@@ -719,5 +836,7 @@ namespace AppVoice
             }
             return unreadMessages;
         }
+
+       
     }
 }

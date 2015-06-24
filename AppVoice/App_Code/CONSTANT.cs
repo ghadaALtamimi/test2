@@ -18,5 +18,9 @@ namespace AppVoice
         // App Key to connect to Dropbox
         public const string APP_KEY = "9g6pg6vi7lstkoh";
         public const string APP_SECRET = "er56qsux5hjdpwq";
+
+        public const string SECRET = "bmsq0sd7ughalzd";
+        public const string TOKEN = "kthp4ohcg8sm4ohr";
+        public static OAuthToken ACCESS_TOKEN;
     }
 }

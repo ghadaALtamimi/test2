@@ -32,16 +32,22 @@
 
                 <li class="row top-buffer">
 
+                    <span class="glyphicon glyphicon-link"></span>&nbsp הוספת לינק                 
+                    <asp:TextBox CssClass="input-group-lg form-control" ID="LinkTextBox" runat="server"></asp:TextBox>      
+                </li>
+
+                <li class="row top-buffer">
+
                     <span class="glyphicon glyphicon-picture"></span>&nbsp הוספת תמונה                 
                         <asp:FileUpload ID="PictureUpload" CssClass="top-buffer" runat="server" Height="25px" />
-
+                    <asp:Label runat="server" ID="ImageNameLabel"></asp:Label>
                 </li>
 
                 <li class="row top-buffer">
 
                     <span class="glyphicon glyphicon-file"></span>&nbsp הוספת קובץ                 
                         <asp:FileUpload ID="FileUpload" CssClass="top-buffer" runat="server" Height="25px" />
-
+                    <asp:Label runat="server" ID="FileNameLabel"></asp:Label>
                 </li>
 
                 <li class="row top-buffer">

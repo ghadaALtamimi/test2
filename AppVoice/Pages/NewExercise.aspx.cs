@@ -62,7 +62,11 @@ namespace AppVoice
 
         protected void OnSaveButton_Click(object sender, EventArgs e)       // on save exercise button
         {
-            string exerciseTitle, exerciseDescription;
+            string exerciseTitle, exerciseDescription, link, imageName, fileName, imagePath, filePath;
+            bool isVideo;
+
+           
+
 
             if (TitleExerciseTextBox.Text.Equals(""))           // if title textbox is empty, do not add the exercise and return error messageText
             {
@@ -70,14 +74,52 @@ namespace AppVoice
             }
             else
             {
+
                 exerciseTitle = TitleExerciseTextBox.Text;      // save data from textboxes in order to add exercise
                 exerciseDescription = DescriptionTextBox.Text;
+                link = LinkTextBox.Text;
+                imageName = PictureUpload.FileName;
+                fileName = FileUpload.FileName;
+
+
+                imagePath = Server.MapPath(imageName);
+                filePath = Server.MapPath(fileName);
+
+                // Connect to DROPBOX
+                OAuthToken accessToken = new OAuthToken(CONSTANT.TOKEN, CONSTANT.SECRET);
+                var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
+/*
+                string imageName = 
+                string fileName = FileUploadUrl.FileName;           // getting name of uploaded file
+                string filePath = Server.MapPath(FileUploadUrl.FileName);       // getting path of the upload file
+
+                UrlLabel.Text = "FilePath: " + filePath + " -- FileName: " + fileName;
+*/
+
+                if (VideoCheckBox.Checked)
+                {
+                    isVideo = true;
+                }
+                else
+                {
+                    isVideo = false;
+                }
 
                 if (folderId != null)       // if we add the exercise from a specific folder
                 {
-                    Exercise exercise = new Exercise(exerciseTitle, exerciseDescription, Convert.ToInt16(folderId), therapistId);
+                    Exercise exercise = new Exercise(exerciseTitle, exerciseDescription, Convert.ToInt16(folderId), therapistId, link, imageName, fileName, isVideo);
                     if (bl_therapist.addExercise(exercise))
                     {
+                        if (FileUpload.FileName != null)
+                        {
+                            FileUpload.SaveAs(filePath);
+                            var file = api.UploadFile("dropbox", fileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+                        }
+                       if (!imageName.Equals(""))
+                        {
+                            PictureUpload.SaveAs(imagePath);
+                            var file = api.UploadFile("dropbox", imageName, @imagePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+                        } 
                         Response.Redirect("/Pages/AllExercises.aspx?folder=" + folderName + "&id=" + folderId);
                     }
                     
@@ -86,9 +128,19 @@ namespace AppVoice
                 {       // if we add an exercise and we also choose the folder from this exercise
                     string folderName = DropDownListFolder.Text;
                     int folderIdByName = bl_therapist.getFolderIdByFolderName(folderName, therapistId);
-                    Exercise exercise = new Exercise(exerciseTitle, exerciseDescription, Convert.ToInt16(folderIdByName), therapistId);
+                    Exercise exercise = new Exercise(exerciseTitle, exerciseDescription, Convert.ToInt16(folderIdByName), therapistId, link, imageName, fileName, isVideo);
                     if (bl_therapist.addExercise(exercise))
                     {
+                        if (FileUpload.FileName.Equals(""))
+                        {
+                            FileUpload.SaveAs(filePath);
+                            var file = api.UploadFile("dropbox", fileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+                        }
+                         if (!imageName.Equals(""))
+                         {
+                             PictureUpload.SaveAs(imagePath);
+                             var file = api.UploadFile("dropbox", imageName, @imagePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+                         } 
                         Response.Redirect("/Pages/AllExercises.aspx?folder=" + folderName + "&id=" + folderIdByName);
                     }
                 }

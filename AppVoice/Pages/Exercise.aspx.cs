@@ -22,7 +22,6 @@ namespace AppVoice
         public List<Task> allTasks;
         public string therapistId, exerciseTitle;
         public int exerciseId;
-        private string CurrentPath = "/";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,7 +32,12 @@ namespace AppVoice
                 therapistId = Session["therapist_licenseId"].ToString();        // get therapist id
                 bl_therapist = new Bl_Therapist();
 
-                AddTaskPanel.Visible = false; // Panel of add task not visible
+                 hideTextBoxes();
+                 hideOthersButton("");
+                 UpdateButton.Visible = true;
+                 SaveUpdatesButton.Visible = false;
+                 DeleteButton.Visible = false;
+
 
                 if (Request.QueryString["exercise"] != null && Request.QueryString["id"] != null)       // if we came from exercises folder and not patient folder
                 {
@@ -41,28 +45,39 @@ namespace AppVoice
                     exerciseId = Convert.ToInt16(Request.QueryString["id"]);    // get exercise id
 
                     exercise = bl_therapist.getExerciseDetails(exerciseId);     // get exercise details
-                    allTasks = bl_therapist.getAllTasksByExerciseId(exerciseId);        // get all tasks of specific exercise
 
+                    ErrorInUpdateLabel.Visible = false;
                     ExerciseNameLabel.Text = exercise.Title;        // set name label of exercise
                     FolderNameLabel.Text = bl_therapist.getFolderNameByFolderId(exercise.FolderId, therapistId);        // set folder name
-                    ExerciseDescriptionLabel.Text = exercise.Description;       // set description 
-                    TaskTitleLabelError.Visible = false;
-
-                    if (exercise.Description.Equals(""))     // if no description for this exercise  - add button
-                    {
-                        AddDescriptionButton.Visible = true;
-                        EditDescriptionButton.Visible = false;
-                        SaveDescriptionButton.Visible = false;
-                        DescriptionTextBox.Visible = false;
-                    }
-                    else            // if there is a description for this exercise  - edit button
-                    {
-                        AddDescriptionButton.Visible = false;
-                        EditDescriptionButton.Visible = true;
-                        SaveDescriptionButton.Visible = false;
-                        DescriptionTextBox.Visible = false;
-                    }
                 }
+
+                if (!exercise.Description.Equals(""))
+                {
+                    DescriptionLabel.Text = exercise.Description;
+                }
+                if (!exercise.Link.Equals(""))
+                {
+                    Uri uri = new Uri(exercise.Link);
+                    LinkHyperLink.NavigateUrl = uri.AbsoluteUri;
+                    LinkHyperLink.Text = exercise.Link;
+                }
+                else
+                {
+                    LinkHyperLink.Text = "אין לינק לתרגיל זה";
+                }
+                if (!exercise.ImagePath.Equals(""))
+                {
+                    ImageLabel.Text = exercise.ImagePath;
+                }
+                if (!exercise.FilePath.Equals(""))
+                {
+                    FileLabel.Text = exercise.FilePath;
+                }
+               
+                VideoCheckBox.Checked = exercise.IsVideo;
+                
+                VideoCheckBox.Enabled = false;
+
             }
             else
             {
@@ -70,99 +85,441 @@ namespace AppVoice
             }
         }
 
-
-
-        private static OAuthToken GetAccessToken()          // get authorization to access dropbox files
+        /*****************************               Title               *****************************/
+        protected void OnUpdateTitleButton_Click(object sender, EventArgs e)
         {
-            var oauth = new OAuth();
+            hideOthersButton("title");
+            showOnUpdate("title");
+            hideButtonsUpdate();
 
-            var requestToken = oauth.GetRequestToken(new Uri(DropboxRestApi.BaseUri), CONSTANT.APP_KEY, CONSTANT.APP_SECRET);
-
-            var authorizeUri = oauth.GetAuthorizeUri(new Uri(DropboxRestApi.AuthorizeBaseUri), requestToken);
-            Process.Start(authorizeUri.AbsoluteUri);
-            Thread.Sleep(5000); // Leave some time for the authorization step to complete
-
-            return oauth.GetAccessToken(new Uri(DropboxRestApi.BaseUri), CONSTANT.APP_KEY, CONSTANT.APP_SECRET, requestToken);
-            // return oauth.GetAccessToken(new Uri(DropboxRestApi.ShareUri), CONSTANT.APP_KEY, CONSTANT.APP_SECRET, requestToken);
+            ExerciseNameLabel.Visible = false;
+            ExerciseNameTextBox.Visible = true;
+            ExerciseNameTextBox.Text = exercise.Title;
         }
 
-        protected void OnAddExerciseDescription_Click(object sender, EventArgs e)
+      
+
+
+        protected void OnSaveTitleButton_Click(object sender, EventArgs e)
         {
-            DescriptionTextBox.Visible = true;
-
-            EditDescriptionButton.Visible = false;
-            AddDescriptionButton.Visible = false;
-            SaveDescriptionButton.Visible = true;
-
+            // SAVE IN DAL
+            if (bl_therapist.updateTitleExercise(exercise, ExerciseNameTextBox.Text))
+            {
+                showOthersButton();
+                showOnSave("title");
+                ExerciseNameLabel.Text = ExerciseNameTextBox.Text;
+                ExerciseNameLabel.Visible = true;
+                ExerciseNameTextBox.Visible = false;
+            }
+            
         }
 
-        protected void OnEditExerciseDescription_Click(object sender, EventArgs e)
+        protected void OnCancelTitleButton_Click(object sender, EventArgs e)
         {
+            showOthersButton();
+            showOnSave("title");
+            ExerciseNameLabel.Visible = true;
+            ExerciseNameTextBox.Visible = false;
+        }
+
+        /*****************************               Description               *****************************/
+        protected void OnUpdateDescriptionButton_Click(object sender, EventArgs e)
+        {
+            hideOthersButton("description");
+            showOnUpdate("description");
+            DescriptionLabel.Visible = false;
             DescriptionTextBox.Visible = true;
             DescriptionTextBox.Text = exercise.Description;
-
-            EditDescriptionButton.Visible = false;
-            AddDescriptionButton.Visible = false;
-            SaveDescriptionButton.Visible = true;
-            DescriptionLabel.Visible = false;
         }
 
-        protected void OnSaveExerciseDescription_Click(object sender, EventArgs e)
+        protected void OnSaveDescriptionButton_Click(object sender, EventArgs e)
         {
+          
             if (bl_therapist.updateDescriptionExercise(exercise, DescriptionTextBox.Text))
             {
-                Page_Load(sender, e);
+                showOthersButton();
+                showOnSave("description");
+                DescriptionLabel.Visible = true;
+                DescriptionTextBox.Visible = false;
+                DescriptionLabel.Text = DescriptionTextBox.Text;
             }
         }
 
-        protected void OnAddTask_Click(object sender, EventArgs e)
+        protected void OnCancelDescriptionButton_Click(object sender, EventArgs e)
         {
-            AddTaskPanel.Visible = true;
+            showOthersButton();
+            showOnSave("description");
+            ExerciseNameLabel.Visible = true;
+            ExerciseNameTextBox.Visible = false;
         }
 
-        protected void OnSaveButton_Click(object sender, EventArgs e)
+        /*****************************               Link               *****************************/
+        protected void OnUpdateLinkButton_Click(object sender, EventArgs e)
         {
-            if(TaskTitleTextBox.Text.Equals(""))
+            hideOthersButton("link");
+            showOnUpdate("link");
+            LinkHyperLink.Visible = false;
+            LinkTextBox.Visible = true;
+            LinkTextBox.Text = exercise.Link;
+        }
+
+        protected void OnSaveLinkButton_Click(object sender, EventArgs e)
+        {
+            if (bl_therapist.updateLinkExercise(exercise, LinkTextBox.Text))
             {
-                TaskTitleLabelError.Visible = false;
+                showOthersButton();
+                CancelLinkButton.Visible = false;
+                LinkHyperLink.Visible = true;
+                showOnSave("link");
+                LinkTextBox.Visible = false;
+                LinkHyperLink.Text = LinkTextBox.Text;
+                DeleteButton.Visible = true;
+            }
+
+        }
+
+        protected void OnCancelLinkButton_Click(object sender, EventArgs e)
+        {
+            showOthersButton();
+            showOnSave("link");
+            LinkHyperLink.Visible = true;
+            LinkTextBox.Visible = false;
+        }
+
+        /*****************************               Image               *****************************/
+        protected void OnUpdateImageButton_Click(object sender, EventArgs e)
+        {
+            hideOthersButton("image");
+            showOnUpdate("image");
+            ImageUpload.Visible = true;
+        }
+
+
+        protected void OnDeleteImageButton_Click(object sender, EventArgs e)
+        {
+            //exercise.ImagePath = "";
+            if (bl_therapist.updateImagePathFromExercise(exercise, ""))
+            {
+                showOnSave("image");
+                showOthersButton();
+                ImageLabel.Text = "לא נבחרה תמנה";
+            }
+        }
+
+        protected void OnSaveImageButton_Click(object sender, EventArgs e)
+        {
+            UpdateImageButton.Visible = true;
+            SaveImageButton.Visible = false;
+            CancelImageButton.Visible = false;
+
+
+            UpdateButton.Visible = false;
+            SaveUpdatesButton.Visible = true;
+            DeleteButton.Visible = true;
+
+            ImageLabel.Text = ImageUpload.FileName;
+            string imagePath = Server.MapPath(ImageUpload.FileName);
+
+            // Connect to DROPBOX
+            OAuthToken accessToken = new OAuthToken(CONSTANT.TOKEN, CONSTANT.SECRET);
+            var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
+            // save to computer
+            ImageUpload.SaveAs(imagePath);
+            // save to dropbox
+            var file = api.UploadFile("dropbox", ImageUpload.FileName, @imagePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+            bl_therapist.updateImagePathFromExercise(exercise, ImageUpload.FileName);
+        }
+
+        protected void OnCancelImageButton_Click(object sender, EventArgs e)
+        {
+            UpdateImageButton.Visible = true;
+            SaveImageButton.Visible = false;
+            CancelImageButton.Visible = false;
+
+            UpdateButton.Visible = false;
+            SaveUpdatesButton.Visible = true;
+            DeleteButton.Visible = true;
+            showOthersButton();
+        }
+
+        /*****************************               File               *****************************/
+        protected void OnUpdateFileButton_Click(object sender, EventArgs e)
+        {
+            showOnUpdate("file");
+            hideOthersButton("file");
+            FileUpload.Visible = true;
+        }
+
+        protected void OnSaveFileButton_Click(object sender, EventArgs e)
+        {
+           
+            showOnSave("file");
+            showOthersButton();
+            FileLabel.Text = FileUpload.FileName;
+            string filePath = Server.MapPath(FileUpload.FileName);
+
+            // Connect to DROPBOX
+            OAuthToken accessToken = new OAuthToken(CONSTANT.TOKEN, CONSTANT.SECRET);
+            var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
+            // save to computer
+            ImageUpload.SaveAs(filePath);
+            // save to dropbox
+            var file = api.UploadFile("dropbox", FileUpload.FileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+        }
+
+
+        protected void OnDeleteFileButton_Click(object sender, EventArgs e)
+        {
+            if (bl_therapist.updateFilePathFromExercise(exercise, ""))
+            {
+                showOnSave("file");
+                showOthersButton();
+                FileLabel.Text = "לא נבחר קובץ";
+            }
+            
+        }
+        protected void OnCancelFileButton_Click(object sender, EventArgs e)
+        {
+            showOnSave("file");
+            UpdateButton.Visible = false;
+            SaveUpdatesButton.Visible = true;
+            DeleteButton.Visible = true;
+            showOthersButton();
+        }
+
+
+
+        private void hideOthersButton(string str)
+        {
+            switch (str)
+            {
+                case "":
+                    {
+                        UpdateTitleButton.Visible = false;
+                        UpdateDescriptionButton.Visible = false;
+                        UpdateLinkButton.Visible = false;
+                        UpdateImageButton.Visible = false;
+                        UpdateFileButton.Visible = false;
+                    }break;
+                case "title":
+                    {
+                        UpdateDescriptionButton.Visible = false;
+                        UpdateLinkButton.Visible = false;
+                        UpdateImageButton.Visible = false;
+                        UpdateFileButton.Visible = false;
+                    } break;
+                case "description":
+                    {
+                        UpdateTitleButton.Visible = false;
+                        UpdateLinkButton.Visible = false;
+                        UpdateImageButton.Visible = false;
+                        UpdateFileButton.Visible = false;
+                    } break;
+                case "link":
+                    {
+                        UpdateDescriptionButton.Visible = false;
+                        UpdateTitleButton.Visible = false;
+                        UpdateImageButton.Visible = false;
+                        UpdateFileButton.Visible = false;
+                    } break;
+                case "image":
+                    {
+                        UpdateDescriptionButton.Visible = false;
+                        UpdateLinkButton.Visible = false;
+                        UpdateTitleButton.Visible = false;
+                        UpdateFileButton.Visible = false;
+                    } break;
+                case "file":
+                    {
+                        UpdateDescriptionButton.Visible = false;
+                        UpdateLinkButton.Visible = false;
+                        UpdateImageButton.Visible = false;
+                        UpdateTitleButton.Visible = false;
+                    } break;
+            }
+            DeleteImageButton.Visible = false;
+            DeleteFileButton.Visible = false;
+        }
+        private void showOthersButton()
+        {
+            UpdateTitleButton.Visible = true;
+            UpdateDescriptionButton.Visible = true;
+            UpdateLinkButton.Visible = true;
+            UpdateImageButton.Visible = true;
+            DeleteImageButton.Visible = true;
+            UpdateFileButton.Visible = true;
+            DeleteFileButton.Visible = true;
+            VideoCheckBox.Enabled = true;
+        }
+
+        protected void OnCheckedChange(object sender, EventArgs e)
+        {
+         //   
+           // CheckBoxLabel.Text = (Convert.ToString(VideoCheckBox.Checked));
+            if (VideoCheckBox.Checked)
+            {
+                bl_therapist.updateIsVideoExercise(exercise, 0);
             }
             else
             {
-                string taskTitle, taskDescription, taskUrl, taskComment;
-                int exerciseId;
-
-                taskTitle = TaskTitleTextBox.Text;
-                taskDescription = TaskDescriptionTextBox.Text;
-                taskComment = CommentTextBox.Text;
-            
-                var accessToken = GetAccessToken();
-                var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
-                               // string aspNetFilePath = FileUploadUrl.PostedFile.FileName;
-
-                string fileName = FileUploadUrl.FileName;           // getting name of uploaded file
-                string filePath = Server.MapPath(FileUploadUrl.FileName);       // getting path of the upload file
-
-                UrlLabel.Text = "FilePath: " + filePath + " -- FileName: " + fileName;
-                exerciseId = exercise.Id;
-                Task task = new Task(taskTitle, taskDescription, fileName, taskComment, exerciseId);        // creating new task for specific exercise
-                if(bl_therapist.addTask(task))      // if succeeded
-                {
-                    //Page_Load(sender, e);
-                    if (!fileName.Equals(""))
-                    {
-                        FileUploadUrl.SaveAs(filePath);
-                        var file = api.UploadFile("dropbox", fileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
-                    }
-                 }
+                bl_therapist.updateIsVideoExercise(exercise, 1);
             }
+          //  exercise.IsVideo = VideoCheckBox.Checked;
+            //bl_therapist.updateIsVideoExercise(exercise, Convert.ToInt16(VideoCheckBox.Checked));*/
         }
-
-        protected void OnCancelButton_Click(object sender, EventArgs e)
+        protected void OnUpdateButton_Click(object sender, EventArgs e)
         {
-            AddTaskPanel.Visible = false;
+            showOthersButton();
+            UpdateButton.Visible = false;
+            DeleteButton.Visible = true;
+            //CancelButton.Visible = true;
+            SaveUpdatesButton.Visible = true;
         }
 
+        protected void OnSaveUpdatesButton_Click(object sender, EventArgs e)
+        {
+            //VideoCheckBox.
+         /*   if(VideoCheckBox.Checked == true)
+            {
+                Debug.WriteLine(" update is video to be checked");
+                Debug.WriteLine(exercise.IsVideo);
+                bl_therapist.updateIsVideoExercise(exercise, 0);
+                Debug.WriteLine(exercise.IsVideo);
+            }
+            if(VideoCheckBox.Checked == false)
+            {
+                Debug.WriteLine(" update is video to be not checked");
+                Debug.WriteLine(exercise.IsVideo);
+                // update is vedeo to be not checked
+                bl_therapist.updateIsVideoExercise(exercise, 1);
+                Debug.WriteLine(exercise.IsVideo);
+            }*/
+            Page_Load(sender, e);
+          /*  hideOthersButton("");
+            UpdateButton.Visible = true;
+            DeleteButton.Visible = false;
+            VideoCheckBox.Enabled = false;
+            SaveUpdatesButton.Visible = false;*/
+            
+        }
 
+        protected void OnDeleteButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hideTextBoxes()
+        {
+            ExerciseNameTextBox.Visible = false;
+            DescriptionTextBox.Visible = false;
+            LinkTextBox.Visible = false;
+            ImageUpload.Visible = false;
+            FileUpload.Visible = false;
+            VideoCheckBox.Enabled = false;
+        }
+        private void showTextBoxes()
+        {
+            ExerciseNameTextBox.Visible = true;
+            ExerciseNameTextBox.Text = exercise.Title;
+            DescriptionTextBox.Visible = true;
+            DescriptionTextBox.Text = exercise.Description;
+            LinkTextBox.Visible = true;
+            LinkTextBox.Text = exercise.Link;
+            VideoCheckBox.Enabled = true;
+            // ImageUpload.Visible = true;
+            //  FileUpload.Visible = true;
+        }
+        private void hideButtonsUpdate()
+        {
+            UpdateButton.Visible = false;
+            SaveUpdatesButton.Visible = false;
+            DeleteButton.Visible = false;
+        }
+
+        private void showOnUpdate(string str)
+        {
+            switch (str)
+            {
+                case "title":
+                    {
+                        SaveTitleButton.Visible = true;
+                        CancelTitleButton.Visible = true;
+                        UpdateTitleButton.Visible = false;
+                    } break;
+
+                case "description":
+                    {
+                        SaveDescriptionButton.Visible = true;
+                        CancelDescriptionButton.Visible = true;
+                        UpdateDescriptionButton.Visible = false;
+                    } break;
+
+                case "link":
+                    {
+                        SaveLinkButton.Visible = true;
+                        CancelLinkButton.Visible = true;
+                        UpdateLinkButton.Visible = false;
+                    } break;
+                case "image":
+                    {
+                        SaveImageButton.Visible = true;
+                        CancelImageButton.Visible = true;
+                        UpdateImageButton.Visible = false;
+                    } break;
+                case "file":
+                    {
+                        SaveFileButton.Visible = true;
+                        CancelFileButton.Visible = true;
+                        DeleteFileButton.Visible = true;
+                        UpdateFileButton.Visible = false;
+                    } break;
+            }
+            hideButtonsUpdate();
+        }
+
+        private void showOnSave(string str)
+        {
+            switch (str)
+            {
+                case "title":
+                    {
+                        SaveTitleButton.Visible = false;
+                        CancelTitleButton.Visible = false;
+                        UpdateTitleButton.Visible = true;
+                    } break;
+
+                case "description":
+                    {
+                        SaveDescriptionButton.Visible = false;
+                        CancelDescriptionButton.Visible = false;
+                        UpdateDescriptionButton.Visible = true;
+                    } break;
+
+                case "link":
+                    {
+                        SaveLinkButton.Visible = false;
+                        CancelLinkButton.Visible = false;
+                        UpdateLinkButton.Visible = true;
+                    } break;
+                case "image":
+                    {
+                        SaveImageButton.Visible = false;
+                        CancelImageButton.Visible = false;
+                        DeleteImageButton.Visible = true;
+                        UpdateImageButton.Visible = true;
+                    } break;
+                case "file":
+                    {
+                        SaveFileButton.Visible = false;
+                        CancelFileButton.Visible = false;
+                        DeleteFileButton.Visible = true;
+                        UpdateFileButton.Visible = true;
+                    } break;
+            }
+            SaveUpdatesButton.Visible = true;
+            DeleteButton.Visible = true;
+            UpdateButton.Visible = false;
+        }
 
 
     }

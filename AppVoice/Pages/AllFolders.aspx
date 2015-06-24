@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container top-padding" dir="rtl">
-        <h2><span class="glyphicon glyphicon-file"></span>&nbsp התקיות שלי &nbsp &nbsp
+        <h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp התקיות שלי &nbsp &nbsp
           <asp:LinkButton class="btn btn-warning" OnClick="OnAddFolder_Click" runat="server"><span class="glyphicon glyphicon-plus"></span>&nbsp הוסף תקייה</asp:LinkButton></h2>
         <asp:Panel runat="server">
             <div class="row top-padding">

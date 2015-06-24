@@ -58,6 +58,15 @@ namespace AppVoice {
         protected global::System.Web.UI.WebControls.TextBox DescriptionTextBox;
         
         /// <summary>
+        /// LinkTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox LinkTextBox;
+        
+        /// <summary>
         /// PictureUpload control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace AppVoice {
         protected global::System.Web.UI.WebControls.FileUpload PictureUpload;
         
         /// <summary>
+        /// ImageNameLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ImageNameLabel;
+        
+        /// <summary>
         /// FileUpload control.
         /// </summary>
         /// <remarks>
@@ -74,6 +92,15 @@ namespace AppVoice {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload;
+        
+        /// <summary>
+        /// FileNameLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FileNameLabel;
         
         /// <summary>
         /// VideoCheckBox control.
