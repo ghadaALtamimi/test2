@@ -354,8 +354,6 @@ namespace AppVoice
 
         protected void OnCheckedChange(object sender, EventArgs e)
         {
-         //   
-           // CheckBoxLabel.Text = (Convert.ToString(VideoCheckBox.Checked));
             if (VideoCheckBox.Checked)
             {
                 bl_therapist.updateIsVideoExercise(exercise, 0);
@@ -364,8 +362,6 @@ namespace AppVoice
             {
                 bl_therapist.updateIsVideoExercise(exercise, 1);
             }
-          //  exercise.IsVideo = VideoCheckBox.Checked;
-            //bl_therapist.updateIsVideoExercise(exercise, Convert.ToInt16(VideoCheckBox.Checked));*/
         }
         protected void OnUpdateButton_Click(object sender, EventArgs e)
         {
@@ -378,34 +374,19 @@ namespace AppVoice
 
         protected void OnSaveUpdatesButton_Click(object sender, EventArgs e)
         {
-            //VideoCheckBox.
-         /*   if(VideoCheckBox.Checked == true)
-            {
-                Debug.WriteLine(" update is video to be checked");
-                Debug.WriteLine(exercise.IsVideo);
-                bl_therapist.updateIsVideoExercise(exercise, 0);
-                Debug.WriteLine(exercise.IsVideo);
-            }
-            if(VideoCheckBox.Checked == false)
-            {
-                Debug.WriteLine(" update is video to be not checked");
-                Debug.WriteLine(exercise.IsVideo);
-                // update is vedeo to be not checked
-                bl_therapist.updateIsVideoExercise(exercise, 1);
-                Debug.WriteLine(exercise.IsVideo);
-            }*/
             Page_Load(sender, e);
-          /*  hideOthersButton("");
-            UpdateButton.Visible = true;
-            DeleteButton.Visible = false;
-            VideoCheckBox.Enabled = false;
-            SaveUpdatesButton.Visible = false;*/
-            
         }
 
         protected void OnDeleteButton_Click(object sender, EventArgs e)
         {
-
+            if(bl_therapist.deleteExercise(exercise))
+            {
+                Response.Redirect("/Pages/AllExercises.aspx");
+            }
+            else
+            {
+                ErrorInUpdateLabel.Visible = true;
+            }
         }
 
         private void hideTextBoxes()
@@ -426,8 +407,6 @@ namespace AppVoice
             LinkTextBox.Visible = true;
             LinkTextBox.Text = exercise.Link;
             VideoCheckBox.Enabled = true;
-            // ImageUpload.Visible = true;
-            //  FileUpload.Visible = true;
         }
         private void hideButtonsUpdate()
         {
