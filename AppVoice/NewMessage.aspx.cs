@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -23,6 +24,10 @@ namespace AppVoice
                 bl_patient = new Bl_Patient();
 
                 allPatient = bl_patient.getAllPatientsByLicenseId(therapistId);
+                Label1.Visible = false;
+                TitleExerciseLabelError.Visible = false;
+                Label2.Visible = false;
+                Label3.Visible = false;
 
                // DropDownList ddl = DropDownPatients;
                 List<string> patients = new List<string>();
@@ -43,10 +48,39 @@ namespace AppVoice
 
         protected void OnSendMessageButton_Click(object sender, EventArgs e)
         {
-            int patientIndex = DropDownPatients.SelectedIndex;
-            Patient patient = allPatient.ElementAt(patientIndex);
+            DropDownList ddl = DropDownPatients;
+            int patientIndex = ddl.SelectedIndex;
+            System.Diagnostics.Debug.WriteLine(patientIndex);
+            Patient patient = null;
+            Label3.ForeColor = Color.Green;
+            Label3.Visible = true;
+           /* if (patientIndex == 0)
+            {
+                TitleExerciseLabelError.Visible = true;
+            }
+            else
+            {
+                patient = allPatient.ElementAt(patientIndex);
+            }
 
-            bl_therapist.n
+            if (!MessageTextBox.Text.Equals("") )
+            {
+                if (patient != null)
+                {
+                    if (bl_therapist.sendMessage(therapistId, patient.PatientId, MessageTextBox.Text))
+                    {
+                        Response.Redirect("/Pages/Messages.aspx");
+                    }
+                }
+                else
+                {
+                    Label2.Visible = true;
+                }
+            }   
+            else
+            {
+                Label1.Visible = true;
+            } */
         }
     }
 }
