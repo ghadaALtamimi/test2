@@ -14,6 +14,7 @@ namespace AppVoice
         public Bl_Patient bl_patient;
         private string therapistId;
         public List<Patient> allPatient;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["therapist_name"] != null && Session["therapist_licenseId"] != null)
