@@ -15,9 +15,9 @@
                 <div class="col-md-offset-1 col-md-10">
 
                     <!-- Id liscence area -->
-                    <div class="input-group form-group">
-                        <span class="input-group-addon glyphicon glyphicon-user"></span>
-                        <asp:TextBox ID="IdTextBox" class="form-control" runat="server" placeholder="מספר רשיון..."></asp:TextBox>
+                    <div class="input-group form-group" style="direction: ltr;">
+                        <asp:TextBox ID="IdTextBox" class="form-control" runat="server" placeholder="מספר רשיון..." style="direction: rtl;"></asp:TextBox>
+                        <span class="input-group-addon glyphicon glyphicon-user" style="top: 0;"></span>
                     </div>
                     <!-- Id Error Panel -->
                     <asp:Panel ID="IdPanelError" Visible="false" runat="server">
@@ -27,9 +27,9 @@
                     </asp:Panel>
 
                     <!-- Password area -->
-                    <div class="input-group form-group">
-                        <span class="input-group-addon glyphicon glyphicon-asterisk"></span>
-                        <asp:TextBox ID="PwdTextBox" class="form-control" TextMode="password" runat="server" placeholder="סיסמה..."></asp:TextBox>
+                    <div class="input-group form-group"  style="direction: ltr;">
+                        <asp:TextBox ID="PwdTextBox" class="form-control" TextMode="password" runat="server" placeholder="סיסמה..."  style="direction: rtl;"></asp:TextBox>
+                        <span class="input-group-addon glyphicon glyphicon-asterisk"  style="top: 0;"></span>
                     </div>
                     <!-- Password Error Panel -->
                     <asp:Panel runat="server" ID="PwdPanelError" Visible="false">
