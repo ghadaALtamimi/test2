@@ -188,7 +188,13 @@ namespace AppVoice
             return dal_therapist.getAllAssignedExercisesByExerciseId(exerciseId);
         }
 
-       
+
+        /*  ****************************     Submitted Exercise     ****************************  */
+         public List<SubmittedExercise> getSubmittedExercises(string licenseId)
+        {
+            return dal_therapist.getSubmittedExercises(licenseId);
+        }
+
     }
 
 }

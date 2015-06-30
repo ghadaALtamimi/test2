@@ -637,7 +637,7 @@ namespace AppVoice
 
         public List<Task> getAllTasksByExerciseId(int exerciseId)
         {
-            
+
             con.Open();
             List<Task> allTasks = new List<Task>();
             String getAllTasks = "SELECT * FROM Task WHERE ExerciseId = '" + exerciseId + "'";
@@ -663,7 +663,7 @@ namespace AppVoice
         }
 
 
-         /*  ****************************     Assignment Exercise     ****************************  */
+        /*  ****************************     Assignment Exercise     ****************************  */
         public bool addAssignmentExercise(AssignedExercise assignedExercise)
         {
             con.Open();
@@ -690,7 +690,7 @@ namespace AppVoice
         {
             con.Open();
             List<AssignedExercise> allAssignedExercises = new List<AssignedExercise>();
-            
+
             String getAssignedExercises = "SELECT * FROM AssignedExercise WHERE TherapistId = '" + therapistId + "'";
 
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
@@ -769,9 +769,9 @@ namespace AppVoice
 
         public List<Exercise> getListExerciseByListAssignedExercise(List<AssignedExercise> assignedExercise)        // return list of exercises, given list of assigned exercises
         {
-            
+
             List<Exercise> allExercises = new List<Exercise>();
-            foreach(AssignedExercise ass in assignedExercise)
+            foreach (AssignedExercise ass in assignedExercise)
             {
                 Exercise exercise = getExerciseDetails(ass.ExerciseId);
                 allExercises.Add(exercise);
@@ -784,9 +784,9 @@ namespace AppVoice
         {
             List<Message> allMessages = getAllMessages(licenseId);
             int numOfUnreadMessages = 0;
-            foreach(Message m in allMessages)
+            foreach (Message m in allMessages)
             {
-                if(!m.IsRead)
+                if (!m.IsRead)
                 {
                     numOfUnreadMessages++;
                 }
@@ -837,6 +837,55 @@ namespace AppVoice
             return unreadMessages;
         }
 
-       
+        public bool sendMessage(string messageFrom, string messageTo, string messageText)
+        {
+            con.Open();
+            MySqlCommand comm = con.CreateCommand();
+            comm.CommandText = "INSERT INTO Messages(MessageFrom, MessageTo, MessageText) VALUES(@messageFrom, @messageTo, @MessageText)";
+            comm.Parameters.AddWithValue("@messageFrom", messageFrom);
+            comm.Parameters.AddWithValue("@messageTo", messageTo);
+            comm.Parameters.AddWithValue("@messageText", messageText);
+
+            //  con.Close();
+            if (comm.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+
+            con.Close();
+            return false;
+        }
+
+        /*  ****************************     Submitted Exercise     ****************************  */
+        public List<SubmittedExercise> getSubmittedExercises(string licenseId)
+        {
+            con.Open();
+            List<SubmittedExercise> allExercises = new List<SubmittedExercise>();
+
+            String getAllExercises = "SELECT * FROM SubmittedExercise WHERE TherapistId = '" + licenseId + "'";
+
+            MySqlCommand command = new MySqlCommand(getAllExercises, con);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            int id, exerciseId, isOpenedFile, isDone;
+            string patientId, exerciseName;
+
+            while (reader.Read())
+            {
+                id = Convert.ToInt32(reader["Id"]);
+                exerciseId = Convert.ToInt32(reader["ExerciseId"]);
+                exerciseName = reader["ExerciseName"] + "";
+                patientId = reader["PatientId"] + "";
+                isOpenedFile = Convert.ToInt16(reader["OpenedFile"]);
+                isDone = Convert.ToInt16(reader["IsDone"]);
+                SubmittedExercise submittedExercise = new SubmittedExercise(id, exerciseId, exerciseName, patientId, licenseId, isOpenedFile, isDone);
+
+                allExercises.Add(submittedExercise);
+            }
+            con.Close();
+            reader.Close();
+            return allExercises;
+        }
     }
 }

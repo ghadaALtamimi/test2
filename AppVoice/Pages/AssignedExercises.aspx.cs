@@ -37,6 +37,10 @@ namespace AppVoice
                     }
                 }
             }
+            else
+            {
+                Response.Redirect("/Default.aspx");
+            }
         }
     }
 }

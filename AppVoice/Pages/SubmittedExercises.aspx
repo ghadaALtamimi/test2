@@ -11,10 +11,26 @@
                 <th class="text-center"><span class="glyphicon glyphicon-user"></span>&nbsp שם מטופל</th>
                 <th class="text-center"><span class="glyphicon glyphicon-envelope"></span>&nbsp סוג תרגיל</th>
                 <th class="text-center"><span class="glyphicon glyphicon-map-marker"></span>&nbsp שם תרגיל</th>
-                <th class="text-center"><span class="glyphicon glyphicon-phone-alt"></span>&nbsp לינק וידאו</th>
-                <th class="text-center"><span class="glyphicon glyphicon-heart-empty"></span>&nbsp תאריך הגשה</th>
+                <!--<th class="text-center"><span class="glyphicon glyphicon-phone-alt"></span>&nbsp לינק וידאו</th>-->
+               <!-- <th class="text-center"><span class="glyphicon glyphicon-heart-empty"></span>&nbsp תאריך הגשה</th> -->
+
                 
             </tr>
+            <%foreach(AppVoice.SubmittedExercise s in submittedExercises)
+              {
+                  AppVoice.Patient patient = bl_patient.getPatientDetails(s.PatientId);
+                  AppVoice.Exercise exercise = bl_therapist.getExerciseDetails(s.ExerciseId);
+                  AppVoice.Folder folder = bl_therapist.getFolderDetails(exercise.FolderId);
+                   %>
+            <tr>
+                <td class="text-center"><%= s.PatientId%></td>
+                <td class="text-center"><%= patient.FirstName%> <%= patient.LastName%></td>
+                <td class="text-center"><%= folder.Name%></td>
+                <td class="text-center"><%= exercise.Title%></td>
+                
+            </tr>
+            <%} %>
         </table>
+
     </div>
 </asp:Content>

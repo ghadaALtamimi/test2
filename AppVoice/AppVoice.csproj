@@ -99,7 +99,8 @@
     <Content Include="App_Readme\Spring.Rest.txt" />
     <Content Include="App_Readme\Spring.Social.Core.txt" />
     <Content Include="App_Readme\Spring.Social.Dropbox.txt" />
-    <Content Include="Messages.aspx" />
+    <Content Include="Pages\Messages.aspx" />
+    <Content Include="NewMessage.aspx" />
     <Content Include="Pages\AssignedExercises.aspx" />
     <Content Include="Pages\ExerciseAssignment.aspx" />
     <Content Include="Pages\NewExercise.aspx" />
@@ -164,12 +165,19 @@
     <Compile Include="File.cs" />
     <Compile Include="FileSystemInfo.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="Messages.aspx.cs">
+    <Compile Include="Pages\Messages.aspx.cs">
       <DependentUpon>Messages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Messages.aspx.designer.cs">
+    <Compile Include="Pages\Messages.aspx.designer.cs">
       <DependentUpon>Messages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewMessage.aspx.cs">
+      <DependentUpon>NewMessage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewMessage.aspx.designer.cs">
+      <DependentUpon>NewMessage.aspx</DependentUpon>
     </Compile>
     <Compile Include="OAuth\OAuth.cs" />
     <Compile Include="OAuth\OAuthBase.cs" />
@@ -307,6 +315,7 @@
     </Compile>
     <Compile Include="Quota.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Class\SubmittedExercise.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
