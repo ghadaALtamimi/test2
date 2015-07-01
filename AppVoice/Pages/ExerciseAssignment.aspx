@@ -27,9 +27,10 @@
                 <tr>
                     
                     <td><asp:CheckBox runat="server" /></td>
-                    <td><%= CheckBoxList.Items %></td>
+                    
                     <td><%= exerciseName%></td>
                     <td><%= folderName%></td>
+                    
                     <td>
                         <a href="/Pages/Exercise.aspx?id=<%=e.Id %>&exercise=<%=e.Title %>">
                             <p class="btn btn-info">הצג</p>

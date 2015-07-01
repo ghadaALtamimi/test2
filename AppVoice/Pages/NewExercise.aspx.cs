@@ -110,7 +110,7 @@ namespace AppVoice
                     Exercise exercise = new Exercise(exerciseTitle, exerciseDescription, Convert.ToInt16(folderId), therapistId, link, imageName, fileName, isVideo);
                     if (bl_therapist.addExercise(exercise))
                     {
-                        if (FileUpload.FileName != null)
+                        if (!fileName.Equals(""))//FileUpload.FileName != null)
                         {
                             FileUpload.SaveAs(filePath);
                             var file = api.UploadFile("dropbox", fileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder

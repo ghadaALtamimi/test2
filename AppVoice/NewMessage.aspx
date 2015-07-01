@@ -7,7 +7,7 @@
 
         <div class="col-md-6 col-md-offset-6">
             <ul class="list-unstyled form-group">
-                <li class="row">
+                <li class="row top-buffer">
 
                     <span class="glyphicon glyphicon-info-sign"></span>&nbsp הודעה עבור:                 
                                 

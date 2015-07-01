@@ -15,7 +15,7 @@ namespace AppVoice
         {
             bl_therapist = new Bl_Therapist();
             Dal_Therapist dal_therapist = new Dal_Therapist();
-            Label1.Text = dal_therapist.showTherapistDetails();
+            //Label1.Text = dal_therapist.showTherapistDetails();
         }
 
         protected void ButtonLogin_Click(object sender, EventArgs e)

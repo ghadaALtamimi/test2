@@ -11,7 +11,7 @@
      <div class="container">
         <h2><span class="glyphicon glyphicon-th-list"></span>&nbsp&nbsp הודעות </h2>
          <asp:Button class="btn btn-warning" ID="Button1" runat="server" OnClick="OnNewMessageButton_Click" Text="כתוב הודעה חדשה" />
-         <table class="table text-center">
+         <table class="table text-center top-buffer">
             <tr class="text-center">
                 <th class="text-center"><span class="glyphicon glyphicon-user"></span>&nbsp שם מטופל</th>
                 <th class="auto-style1"><span class="glyphicon glyphicon-envelope"></span>&nbsp הודעה</th>
