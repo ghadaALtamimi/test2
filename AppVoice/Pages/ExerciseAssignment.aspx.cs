@@ -43,6 +43,24 @@ namespace AppVoice
                 {
                     PanelFromPatient.Visible = false;
                     PanelFromExercise.Visible = true;
+
+                  //  ListView listViewPatient = ListViewPatient;
+                    CheckBoxList checkBoxList = CheckBoxList1;
+                    List<Patient> allPatients = bl_patient.getAllPatientsByLicenseId(therapistId);
+                    List<string> patients = new List<string>();
+                    //patients.Add("בחר מטופל...");
+                    foreach (Patient p in allPatients)
+                    {
+                        ListItem li1 = new ListItem("\t" + p.FirstName + " " + p.LastName + "\t", "data", true);
+                        li1.Selected = false;
+                        checkBoxList.Items.Add(li1);
+                        //patients.Add(p.FirstName + " " + p.LastName);
+                    }
+
+                   
+                  //  listViewPatient.DataSource = patients;
+                //    listViewPatient.DataBind();
+                    
                 }
 
             }
@@ -52,7 +70,8 @@ namespace AppVoice
             }
         }
 
-       
+    
+
         protected void OnAddAllExercises_Click(object sender, EventArgs e)
         {
 

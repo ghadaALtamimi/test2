@@ -635,7 +635,37 @@ namespace AppVoice
             con.Close();
             return false;
         }
-       
+        public bool deleteExercise(string exerciseId)
+        {
+            con.Open();
+            string deleteEx = "DELETE FROM Exercise WHERE ExerciseId = '" + exerciseId + "'";
+            string deleteAssEx = "DELETE FROM AssignedExercise WHERE ExerciseId = '" + exerciseId + "'";
+            string deleteSubEx = "DELETE FROM SubmittedExercise WHERE ExerciseId = '" + exerciseId + "'";
+
+
+            MySqlCommand command1 = new MySqlCommand(deleteEx, con);
+            MySqlCommand command2 = new MySqlCommand(deleteAssEx, con);
+            MySqlCommand command3 = new MySqlCommand(deleteSubEx, con);
+
+
+            if (command1.ExecuteNonQuery() < 0 )        // remove from Exercise table
+            {
+                con.Close();
+                return false;
+            }
+            while(command2.ExecuteNonQuery() < 0)       // remove from AssignedExercise table
+            {
+                con.Close();
+                return false;
+            }
+            while(command3.ExecuteNonQuery() < 0)       // remove from SubmittedExercise table
+            {
+                con.Close();
+                return false;
+            }
+            con.Close();
+            return true;
+        }
 
         /*  ****************************     Assignment Exercise     ****************************  */
         public bool addAssignmentExercise(AssignedExercise assignedExercise)

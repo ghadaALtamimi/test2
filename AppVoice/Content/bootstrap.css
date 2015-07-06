@@ -272,7 +272,7 @@ th {
 }
 .glyphicon {
   position: relative;
-  top: 1px;
+  top: 3px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   font-style: normal;
@@ -281,6 +281,8 @@ th {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+    right: 0px;
+    width: 29px;
 }
 .glyphicon-asterisk:before {
   content: "\2a";

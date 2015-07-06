@@ -18,13 +18,20 @@
                 <div class='col-md-3'>
                     <div class='thumbnail text-center'>
                         <div class='bg-danger'>
+                             <div class='col-md-3'>
+                                    <a style="color:grey;" class='btn' onclick="return confirm('האם אתה רוצה למחוק תקייה זו?');" href="/Pages/AllFolders.aspx?deletedId=<%=folderId %>"><span class="glyphicon glyphicon-remove"></span></a>
+                                </div>
                             <div class='caption'>
-                                <div class='h3'><%=nameFolder %></div>
-                                <a class='btn btn-danger' href="/Pages/AllExercises.aspx?id=<%=folderId %>&folder=<%=nameFolder %>" role='button'>פתח</a>
-                                
-                                <!--   <a class='btn btn-danger' href="/Pages/AllExercises.aspx?id=<%=folderId %>&folder=<%=nameFolder %>" role='button'><span class="glyphicon glyphicon-remove"></span></a> -->
-                                <a class='btn' onclick="return confirm('Do you want Delete?');" href="/Pages/AllFolders.aspx?deletedId=<%=folderId %>"><span class="glyphicon glyphicon-remove"></span></a>
                                
+                                <div class='h3'>
+
+                                    <%=nameFolder %>
+                                </div>
+                                <a class='btn btn-danger' href="/Pages/AllExercises.aspx?id=<%=folderId %>&folder=<%=nameFolder %>" role='button'>פתח</a>
+
+                                <!--   <a class='btn btn-danger' href="/Pages/AllExercises.aspx?id=<%=folderId %>&folder=<%=nameFolder %>" role='button'><span class="glyphicon glyphicon-remove"></span></a> -->
+                                
+
                             </div>
                         </div>
                     </div>

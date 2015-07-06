@@ -164,7 +164,10 @@ namespace AppVoice
         {
             return dal_therapist.updateIsVideoExercise(exercise, isVideo);
         }
-
+        public bool deleteExercise(string exerciseId)
+        {
+            return dal_therapist.deleteExercise(exerciseId);
+        }
      
 
    

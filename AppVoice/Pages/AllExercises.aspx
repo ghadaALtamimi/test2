@@ -50,7 +50,9 @@
                     <a href="/Pages/ExerciseAssignment.aspx?exerciseId=<%=e.Id %>">
                         <p class="btn btn-warning">שבץ תרגיל</p>
                     </a>
-
+                    <a  onclick="return confirm('האם אתה רוצה למחוק תרגיל זה?');" href="/Pages/ExerciseAssignment.aspx?deletedId=<%=e.Id %>">
+                        <p class="btn btn-danger">מחק תרגיל</p>
+                    </a>
                 </td>
 
             </tr>

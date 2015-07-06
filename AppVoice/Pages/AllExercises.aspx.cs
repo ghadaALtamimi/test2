@@ -29,7 +29,7 @@ namespace AppVoice
                     TitlePanel.Visible = true;
                     SaveDescriptionButton.Visible = false;
                     FolderNameLabel.Text = folder.Name;
-                    if(folder.Description.Equals(""))
+                    if (folder.Description.Equals(""))
                     {
                         AddDescriptionButton.Visible = true;
                         EditDescriptionButton.Visible = false;
@@ -50,6 +50,14 @@ namespace AppVoice
 
                     allExercises = bl_therapist.getAllExercisesByFolderId(therapistId, Convert.ToInt32(folderId));
                 }
+                else if (Request.QueryString["deletedId"] != null)
+                {
+                    if(bl_therapist.deleteExercise(Request.QueryString["deletedId"]))
+                    {
+                        Response.Redirect("/Pages/AllExercises.aspx");
+                    }
+                }
+
                 else
                 {
                     TitlePanel.Visible = false;
@@ -60,7 +68,7 @@ namespace AppVoice
             {
                 Response.Redirect("/Default.aspx");
             }
-            
+
         }
 
         protected void OnAddExercise_Click(object sender, EventArgs e)
@@ -95,7 +103,7 @@ namespace AppVoice
         }
         protected void OnSaveFolderDescription_Click(object sender, EventArgs e)
         {
-            if(bl_therapist.updateDescriptionFolder(folder, DescriptionTextBox.Text))
+            if (bl_therapist.updateDescriptionFolder(folder, DescriptionTextBox.Text))
             {
                 Page_Load(sender, e);
             }
