@@ -104,6 +104,11 @@ namespace AppVoice
             return dal_therapist.getFolderIdByExerciseId(exerciseId, therapistId);
         }
 
+        public bool deleteFolder(string folderId)
+        {
+            return dal_therapist.deleteFolder(folderId);
+        }
+
         /*  ****************************     Exercise     ****************************  */
 
         public List<Exercise> getAllExercisesByFolderId(string therapistId, int folderId)
@@ -160,18 +165,9 @@ namespace AppVoice
             return dal_therapist.updateIsVideoExercise(exercise, isVideo);
         }
 
-        /*  ****************************     Task     ****************************  */
+     
 
-        public List<Task> getAllTasksByExerciseId(int exerciseId)
-        {
-            return dal_therapist.getAllTasksByExerciseId(exerciseId);
-        }
-
-        public bool addTask(Task task)
-        {
-            return dal_therapist.addTask(task);
-        }
-
+   
         /*  ****************************     Assignment Exercise     ****************************  */
         public bool addAssignmentExercise(AssignedExercise assignedExercise)
         {

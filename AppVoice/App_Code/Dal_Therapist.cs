@@ -363,6 +363,30 @@ namespace AppVoice
             reader.Close();
             return folderId;
         }
+
+        public bool deleteFolder(string folderId)
+        {
+            con.Open();
+
+            String deleteExercises = "DELETE FROM Exercise WHERE FolderId = '" + folderId + "'";
+            MySqlCommand command = new MySqlCommand(deleteExercises, con);
+
+            while (command.ExecuteNonQuery() < 0)
+            {
+                con.Close();
+                return false;
+            }
+
+            String deleteFolder = "DELETE FROM Folder WHERE FolderId = '" + folderId + "'";
+            MySqlCommand command1 = new MySqlCommand(deleteFolder, con);
+            if (command1.ExecuteNonQuery() < 0)
+            {
+                con.Close();
+                return false;
+            }
+            con.Close();
+            return true;
+        }
         /*  ****************************     Exercise     ****************************  */
 
         public bool addExercise(Exercise exercise)
@@ -611,57 +635,7 @@ namespace AppVoice
             con.Close();
             return false;
         }
-        /*  ****************************     Task     ****************************  */
-
-        public bool addTask(Task task)
-        {
-            con.Open();
-            MySqlCommand comm = con.CreateCommand();
-            comm.CommandText = "INSERT INTO Task(TaskTitle, Description, ImagePath, Comment, ExerciseId) VALUES(@taskTitle, @description, @imagePath, @comment, @exerciseId)";
-            comm.Parameters.AddWithValue("@taskTitle", task.Title);
-            comm.Parameters.AddWithValue("@description", task.Description);
-            comm.Parameters.AddWithValue("@imagePath", task.ImagePath);
-            comm.Parameters.AddWithValue("@comment", task.Comment);
-            comm.Parameters.AddWithValue("@exerciseId", task.ExerciseId);
-
-            //  con.Close();
-            if (comm.ExecuteNonQuery() > 0)
-            {
-                con.Close();
-                return true;
-            }
-
-            con.Close();
-            return false;
-        }
-
-        public List<Task> getAllTasksByExerciseId(int exerciseId)
-        {
-
-            con.Open();
-            List<Task> allTasks = new List<Task>();
-            String getAllTasks = "SELECT * FROM Task WHERE ExerciseId = '" + exerciseId + "'";
-
-            MySqlCommand command = new MySqlCommand(getAllTasks, con);
-            MySqlDataReader reader = command.ExecuteReader();
-
-            string taskTitle, taskDescription, imagePath, comment;
-
-            while (reader.Read())
-            {
-                taskTitle = reader["TaskTitle"] + "";
-                imagePath = reader["ImagePath"] + "";
-                taskDescription = reader["Description"] + "";
-                comment = reader["Comment"] + "";
-                Task task = new Task(taskTitle, taskDescription, imagePath, comment, exerciseId);
-                allTasks.Add(task);
-            }
-
-            con.Close();
-            reader.Close();
-            return allTasks;
-        }
-
+       
 
         /*  ****************************     Assignment Exercise     ****************************  */
         public bool addAssignmentExercise(AssignedExercise assignedExercise)
