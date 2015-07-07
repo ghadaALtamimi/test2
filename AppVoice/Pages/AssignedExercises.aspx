@@ -20,7 +20,7 @@
                     {
                         AppVoice.Exercise exercise = bl_therapist.getExerciseDetails(e.ExerciseId);
                         AppVoice.Patient patient = bl_patient.getPatientDetails(e.PatientId);
-                        string folderName = bl_therapist.getFolderNameByFolderId(exercise.FolderId, therapistId);
+                        string folderName = bl_therapist.getFolderNameByFolderId(e.FolderId, therapistId);
             %>
             <tr>
                 <td><%= exercise.Title %></td>

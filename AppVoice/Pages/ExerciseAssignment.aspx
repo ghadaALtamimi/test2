@@ -51,14 +51,16 @@
 
 
         <!-- Exercise Panel -->
+
         <asp:Panel runat="server" ID="PanelFromExercise">
+             <h3><asp:Label runat="server" ID="ExerciseNameLabel"></asp:Label></h3>
             <asp:CheckBoxList ID="CheckBoxList1" CssClass="top-buffer list-group" runat="server">
 
 
             </asp:CheckBoxList>           
         </asp:Panel>
 
-        <asp:Button runat="server" class="btn btn-primary" OnClick="OnAddAllExercises_Click" Text="שבץ תרגילים מסומנים" />
+        <asp:Button runat="server" class="btn btn-primary" OnClick="OnAddAllExercises_Click" Text="שבץ תרגיל למטופלים המסומנים" />
     </div>
 
 </asp:Content>

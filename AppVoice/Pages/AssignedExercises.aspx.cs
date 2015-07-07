@@ -36,6 +36,11 @@ namespace AppVoice
                         allAssignedExercises = bl_patient.getAllAssignedExercisesByPatientId(patientId, therapistId);
                     }
                 }
+
+                else
+                {
+                    allAssignedExercises = bl_therapist.getAllAssignedExercisesByTherapistId(therapistId);
+                }
             }
             else
             {
