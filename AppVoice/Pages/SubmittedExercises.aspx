@@ -66,6 +66,7 @@
                   { %>
                  <td class="text-center"><span class="glyphicon glyphicon-option-horizontal"></span></td>
                 <%} %>
+                <td><a style="color:grey;" class='btn' onclick="return confirm('האם אתה רוצה למחוק תרגיל זה?');" href="/Pages/SubmittedExercises.aspx?deletedId=<%=s.Id %>&patientId=<%=s.PatientId %>&exerciseId=<%=s.ExerciseId %>"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
             <%} %>
         </table>

@@ -892,5 +892,29 @@ namespace AppVoice
             reader.Close();
             return allExercises;
         }
+
+        public bool deleteSubmittedExercise(string submittedId, string patientId, string exerciseId)
+        {
+            con.Open();
+
+            String deleteAssignedEx = "DELETE FROM AssignedExercise WHERE PatientId = '" + patientId + "' AND ExerciseId = '" + exerciseId + "'";
+            MySqlCommand command = new MySqlCommand(deleteAssignedEx, con);
+
+            while (command.ExecuteNonQuery() < 0)
+            {
+                con.Close();
+                return false;
+            }
+
+            String deleteSubmittedEx = "DELETE FROM SubmittedExercise WHERE Id = '" + submittedId + "'";
+            MySqlCommand command1 = new MySqlCommand(deleteSubmittedEx, con);
+            if (command1.ExecuteNonQuery() < 0)
+            {
+                con.Close();
+                return false;
+            }
+            con.Close();
+            return true;
+        }
     }
 }

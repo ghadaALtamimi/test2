@@ -198,7 +198,10 @@ namespace AppVoice
         {
             return dal_therapist.getSubmittedExercises(licenseId);
         }
-
+        public bool deleteSubmittedExercise(string submittedId, string patientId, string exerciseId)
+         {
+             return dal_therapist.deleteSubmittedExercise(submittedId, patientId, exerciseId);
+         }
     }
 
 }
