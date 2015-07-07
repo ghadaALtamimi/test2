@@ -137,6 +137,13 @@ namespace AppVoice
                 return isVideo;
             }
         }
+
+        public String ToString()
+        {
+            String str = "";
+            str += "Id: " + Id + " \n Title:" + Title + " \n Description: " + Description + " \n FolderId: " + FolderId + " \n Link" + Link + " \n ImagePath: " + ImagePath + " \n FilePath: " + FilePath + " \n isVideo: " + IsVideo + " \n TherapistId: " + TherapistId;
+            return str;
+        }
     }
     
 }

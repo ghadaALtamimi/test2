@@ -9,7 +9,7 @@
         <table class="table text-center">
             <tr class="text-center">
                 <th class="text-center"><span class="glyphicon glyphicon-pencil"></span>&nbsp שם תרגיל</th>
-                <th class="text-center"><span class="glyphicon glyphicon-envelope"></span>&nbsp סוג תרגיל</th>
+                <th class="text-center"><span class="glyphicon glyphicon-folder-open"></span>&nbsp סוג תרגיל</th>
                 <th class="text-center"><span class="glyphicon glyphicon-user"></span>&nbsp שם מטופל </th>
             </tr>
 

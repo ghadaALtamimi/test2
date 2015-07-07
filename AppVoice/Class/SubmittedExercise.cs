@@ -8,8 +8,8 @@ namespace AppVoice
     public class SubmittedExercise
     {
         int id, exerciseId, isOpenedFile, isDone;
-        string exerciseName, patientId, therapistId;
-        public SubmittedExercise(int id, int exerciseId, string exerciseName, string patientId, string therapistId, int isOpenedFile, int isDone)
+        string exerciseName, patientId, therapistId, videoPath;
+        public SubmittedExercise(int id, int exerciseId, string exerciseName, string patientId, string therapistId, int isOpenedFile, int isDone, string videoPath)
         {
             this.id = id;
             this.exerciseId = exerciseId;
@@ -18,6 +18,7 @@ namespace AppVoice
             this.therapistId = therapistId;
             this.isOpenedFile = isOpenedFile;
             this.isDone = isDone;
+            this.videoPath = videoPath;
         }
 
         public int Id
@@ -97,6 +98,18 @@ namespace AppVoice
             get
             {
                 return isDone;
+            }
+        }
+
+        public string VideoPath
+        {
+            set
+            {
+                videoPath = value;
+            }
+            get
+            {
+                return videoPath;
             }
         }
     }

@@ -873,7 +873,7 @@ namespace AppVoice
             MySqlDataReader reader = command.ExecuteReader();
 
             int id, exerciseId, isOpenedFile, isDone;
-            string patientId, exerciseName;
+            string patientId, exerciseName, videoPath;
 
             while (reader.Read())
             {
@@ -883,7 +883,8 @@ namespace AppVoice
                 patientId = reader["PatientId"] + "";
                 isOpenedFile = Convert.ToInt16(reader["OpenedFile"]);
                 isDone = Convert.ToInt16(reader["IsDone"]);
-                SubmittedExercise submittedExercise = new SubmittedExercise(id, exerciseId, exerciseName, patientId, licenseId, isOpenedFile, isDone);
+                videoPath = reader["VideoLink"] + "";
+                SubmittedExercise submittedExercise = new SubmittedExercise(id, exerciseId, exerciseName, patientId, licenseId, isOpenedFile, isDone, videoPath);
 
                 allExercises.Add(submittedExercise);
             }
