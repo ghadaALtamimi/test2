@@ -36,7 +36,13 @@ namespace AppVoice
                         allAssignedExercises = bl_patient.getAllAssignedExercisesByPatientId(patientId, therapistId);
                     }
                 }
-
+                else if(Request.QueryString["deletedId"] != null)
+                {
+                    if(bl_therapist.deleteAssignedExercise(bl_therapist.getAssignedExercise(Convert.ToInt16(Request.QueryString["deletedId"]))))
+                    {
+                        Response.Redirect("/Pages/AssignedExercises.aspx");
+                    }
+                }
                 else
                 {
                     allAssignedExercises = bl_therapist.getAllAssignedExercisesByTherapistId(therapistId);

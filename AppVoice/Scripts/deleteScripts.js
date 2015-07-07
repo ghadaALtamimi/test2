@@ -7,6 +7,10 @@ $('.addGenreModal').on('shown.bs.modal', function () {
     $('#ContentPlaceHolder1_GenreTextBox').focus();
 });
 
+$('#popoverData').popover();
+$('#popoverOption').popover({ trigger: "hover" });
+ 
+
 function openModal() {
     $('.loginModal').modal('show');
     $('#UserNameTextBox').focus();

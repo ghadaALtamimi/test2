@@ -60,6 +60,7 @@ if (typeof jQuery === 'undefined') {
     return this
   }
 
+
   $(function () {
     $.support.transition = transitionEnd()
 

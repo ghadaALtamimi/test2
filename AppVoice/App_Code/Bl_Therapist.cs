@@ -191,6 +191,14 @@ namespace AppVoice
         {
             return dal_therapist.getAllAssignedExercisesByExerciseId(exerciseId);
         }
+        public bool deleteAssignedExercise(AssignedExercise ass)
+        {
+            return dal_therapist.deleteAssignedExercise(ass);
+        }
+        public AssignedExercise getAssignedExercise(int assId)
+        {
+            return dal_therapist.getAssignedExercise(assId);
+        }
 
 
         /*  ****************************     Submitted Exercise     ****************************  */
@@ -202,6 +210,11 @@ namespace AppVoice
          {
              return dal_therapist.deleteSubmittedExercise(submittedId, patientId, exerciseId);
          }
+         public bool isSubmittedExerciseExists(string patientId, string exerciseId)
+        {
+            return dal_therapist.isSubmittedExerciseExists(patientId, exerciseId);
+        }
+      
     }
 
 }

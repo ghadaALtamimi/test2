@@ -690,6 +690,31 @@ namespace AppVoice
             return false;
         }
 
+        public AssignedExercise getAssignedExercise(int assId)
+        {
+            con.Open();
+            AssignedExercise assignedExercise = null;
+            String getAssignedExercises = "SELECT * FROM AssignedExercise WHERE AssignedId = '" + assId + "'";
+            MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            int exerciseId, folderId, id;
+            string patientId, folderName, therapistId;
+
+            if(reader.Read())
+            {
+                folderName = reader["FolderName"] + "";
+                patientId = reader["PatientId"] + "";
+                exerciseId = Convert.ToInt32(reader["ExerciseId"]);
+                therapistId = reader["TherapistId"] + "";
+                folderId = Convert.ToInt32(reader["FolderId"]);
+                assignedExercise = new AssignedExercise(assId, exerciseId, folderId, folderName, patientId, therapistId);
+            }
+            con.Close();
+            reader.Close();
+            return assignedExercise;
+
+        }
         public List<AssignedExercise> getAllAssignedExercisesByTherapistId(string therapistId)      // get list of assigned exercises by therapist id
         {
             con.Open();
@@ -700,7 +725,7 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId, folderId;
+            int exerciseId, folderId, id;
             string patientId, folderName;
 
             while (reader.Read())
@@ -708,8 +733,9 @@ namespace AppVoice
                 folderName = reader["FolderName"] + "";
                 patientId = reader["PatientId"] + "";
                 exerciseId = Convert.ToInt32(reader["ExerciseId"]);
+                id = Convert.ToInt32(reader["AssignedId"]);
                 folderId = Convert.ToInt32(reader["FolderId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
+                AssignedExercise assignedExercise = new AssignedExercise(id, exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();
@@ -727,7 +753,7 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getAssignedExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId, folderId;
+            int exerciseId, folderId, id;
             string therapistId, folderName;
 
             while (reader.Read())
@@ -736,7 +762,8 @@ namespace AppVoice
                 therapistId = reader["TherapistId"] + "";
                 exerciseId = Convert.ToInt32(reader["ExerciseId"]);
                 folderId = Convert.ToInt32(reader["FolderId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
+                id = Convert.ToInt32(reader["AssignedId"]);
+                AssignedExercise assignedExercise = new AssignedExercise(id, exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();
@@ -755,7 +782,7 @@ namespace AppVoice
             MySqlDataReader reader = command.ExecuteReader();
 
             string patientId, therapistId, folderName;
-            int folderId;
+            int folderId, id;
 
             while (reader.Read())
             {
@@ -763,7 +790,8 @@ namespace AppVoice
                 therapistId = reader["TherapistId"] + "";
                 patientId = reader["PatientId"] + "";
                 folderId = Convert.ToInt32(reader["FolderId"]);
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
+                id = Convert.ToInt32(reader["AssignedId"]);
+                AssignedExercise assignedExercise = new AssignedExercise(id, exerciseId, folderId, folderName, patientId, therapistId);
                 allAssignedExercises.Add(assignedExercise);
             }
             con.Close();
@@ -783,6 +811,27 @@ namespace AppVoice
 
             return allExercises;
         }
+
+       
+
+        public bool deleteAssignedExercise(AssignedExercise ass)
+        {
+            con.Open();
+            if(isSubmittedExerciseExists(ass.PatientId +"" , ass.ExerciseId + ""))
+            {
+                string deleteEx = "DELETE FROM AssignedExercise WHERE AssignedId = '" + ass.Id + "'";
+                MySqlCommand command = new MySqlCommand(deleteEx, con);
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    con.Close();
+                    return true;
+                }
+            }
+            
+            con.Close();
+            return false;
+        }
+
         /*  ****************************     Messages     ****************************  */
         public int getNumOfUnreadMessages(string licenseId)
         {
@@ -893,6 +942,25 @@ namespace AppVoice
             return allExercises;
         }
 
+        public bool isSubmittedExerciseExists(string patientId, string exerciseId)
+        {
+            con.Open();
+            String isExists = "SELECT * FROM SubmittedExercise WHERE PatientId = '" + patientId + "' AND ExerciseId = '" + exerciseId + "'";
+
+            MySqlCommand command = new MySqlCommand(isExists, con);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            if(reader.Read())
+            {
+                con.Close();
+                reader.Close();
+                return true;
+            }
+            con.Close();
+            reader.Close();
+            return false;
+
+        }
         public bool deleteSubmittedExercise(string submittedId, string patientId, string exerciseId)
         {
             con.Open();

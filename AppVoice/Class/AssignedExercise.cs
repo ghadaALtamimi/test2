@@ -7,7 +7,7 @@ namespace AppVoice
 {
     public class AssignedExercise
     {
-        int exerciseId, folderId;
+        int id, exerciseId, folderId;
         string patientId, therapistId, folderName;
 
 
@@ -20,7 +20,22 @@ namespace AppVoice
             this.therapistId = therapistId;
         }
 
-       
+        public AssignedExercise(int id, int exerciseId, int folderId, string folderName, string patientId, string therapistId) : this(exerciseId, folderId, folderName, patientId, therapistId)
+        {
+            this.id = id;
+
+        }
+        public int Id
+        {
+            set
+            {
+                id = value;
+            }
+            get
+            {
+                return id;
+            }
+        }
         public int ExerciseId
         {
             set

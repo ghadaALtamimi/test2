@@ -188,15 +188,16 @@ namespace AppVoice
             MySqlCommand command = new MySqlCommand(getExercises, con);
             MySqlDataReader reader = command.ExecuteReader();
 
-            int exerciseId, folderId;
+            int id, exerciseId, folderId;
             string folderName;
 
             while (reader.Read())
             {
+                id = Convert.ToInt16(reader["AssignedId"]);
                 exerciseId = Convert.ToInt16(reader["ExerciseId"]);
                 folderId = Convert.ToInt16(reader["FolderId"]);
                 folderName = reader["FolderName"] + "";
-                AssignedExercise assignedExercise = new AssignedExercise(exerciseId, folderId, folderName, patientId, therapistId);
+                AssignedExercise assignedExercise = new AssignedExercise(id, exerciseId, folderId, folderName, patientId, therapistId);
 
                 allAssignedExercises.Add(assignedExercise);
             }
