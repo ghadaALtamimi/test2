@@ -36,14 +36,10 @@ namespace AppVoice
 
                     foreach (Exercise ex in allExercises)
                     {
-
-
-
                         string folderName = bl_therapist.getFolderNameByFolderId(ex.FolderId, therapistId);
                         string exerciseName = ex.Title;
                         checkBoxList.Items.Add(new ListItem("", ex.Id + ""));
 
-                        //  table.Columns.Add("ID");
 
                         TableRow tRow = new TableRow();     // adding row
                         TableCell cell1 = new TableCell();      // checkbox cell
@@ -55,7 +51,7 @@ namespace AppVoice
                         button.Text = "הצג";
                         button.CssClass = "btn btn-primary";
                         CheckBox checkbox = new CheckBox();
-                        
+
                         cell1.Controls.Add(checkbox);
                         cell2.Text = exerciseName;
                         cell3.Text = folderName;
@@ -73,53 +69,55 @@ namespace AppVoice
 
 
                 }
-            }
-            else if (Request.QueryString["exerciseId"] != null)      // if its redirected from exercise account
-            {
-                PanelFromPatient.Visible = false;
-                PanelFromExercise.Visible = true;
 
-                Exercise exercise = bl_therapist.getExerciseDetails(Convert.ToInt16(Request.QueryString["exerciseId"]));        // get exercise details
-                if (exercise != null)
+                else if (Request.QueryString["exerciseId"] != null)      // if its redirected from exercise account
                 {
-                    string folderName = bl_therapist.getFolderNameByFolderId(exercise.FolderId, exercise.TherapistId);
-                    ExerciseNameLabel.Text = folderName + " >> " + exercise.Title;
-                }
+                    PanelFromPatient.Visible = false;
+                    PanelFromExercise.Visible = true;
+                    table.Visible = false;
 
-                CheckBoxList checkBoxList = CheckBoxList1;
-                List<Patient> allPatients = bl_patient.getAllPatientsByLicenseId(therapistId);
-                List<string> patients = new List<string>();
-                List<AssignedExercise> assignedExercises = bl_therapist.getAllAssignedExercisesByExerciseId(exercise.Id);
-
-                foreach (Patient p in allPatients)
-                {
-                    bool isAssigned = false;
-                    ListItem li1;
-                    foreach (AssignedExercise ass in assignedExercises)      // run on assigned exercise to check if the exercise is already assigned to specific patient
+                    Exercise exercise = bl_therapist.getExerciseDetails(Convert.ToInt16(Request.QueryString["exerciseId"]));        // get exercise details
+                    if (exercise != null)
                     {
-                        if (ass.PatientId.Equals(p.PatientId))
+                        string folderName = bl_therapist.getFolderNameByFolderId(exercise.FolderId, exercise.TherapistId);
+                        ExerciseNameLabel.Text = folderName + " >> " + exercise.Title;
+                    }
+
+                    CheckBoxList checkBoxList = CheckBoxList1;
+                    List<Patient> allPatients = bl_patient.getAllPatientsByLicenseId(therapistId);
+                    List<string> patients = new List<string>();
+                    List<AssignedExercise> assignedExercises = bl_therapist.getAllAssignedExercisesByExerciseId(exercise.Id);
+
+                    foreach (Patient p in allPatients)
+                    {
+                        bool isAssigned = false;
+                        ListItem li1;
+                        foreach (AssignedExercise ass in assignedExercises)      // run on assigned exercise to check if the exercise is already assigned to specific patient
                         {
-                            isAssigned = true;
+                            if (ass.PatientId.Equals(p.PatientId))
+                            {
+                                isAssigned = true;
+                            }
+
                         }
+                        if (isAssigned)         // if exercise is already assigned
+                        {
+                            li1 = new ListItem(p.FirstName + " " + p.LastName, p.PatientId, false);          // make checkbox true and not clickable
+                            li1.Selected = true;
+                        }
+                        else            // if exercise is not assigned
+                        {
+                            li1 = new ListItem("   " + p.FirstName + " " + p.LastName + "   ", p.PatientId, true);       // make checkbox false and  clickable
+                            li1.Selected = false;
+                        }
+                        checkBoxList.Items.Add(li1);
+
+
+
 
                     }
-                    if (isAssigned)         // if exercise is already assigned
-                    {
-                        li1 = new ListItem(p.FirstName + " " + p.LastName, p.PatientId, false);          // make checkbox true and not clickable
-                        li1.Selected = true;
-                    }
-                    else            // if exercise is not assigned
-                    {
-                        li1 = new ListItem("   " + p.FirstName + " " + p.LastName + "   ", p.PatientId, true);       // make checkbox false and  clickable
-                        li1.Selected = false;
-                    }
-                    checkBoxList.Items.Add(li1);
-
-
-
 
                 }
-
             }
             else
             {

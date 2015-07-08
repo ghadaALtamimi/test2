@@ -860,15 +860,17 @@ namespace AppVoice
             int messageId;
             string messageFrom, messageTo, messageText;
             bool isRead;
+            DateTime date;
 
             while (reader.Read())
             {
                 messageId = Convert.ToInt32(reader["MessageId"]);
-                messageFrom = reader["MessageTo"] + "";
+                messageFrom = reader["MessageFrom"] + "";
                 messageTo = licenseId;
                 messageText = reader["Message"] + "";
                 isRead = Convert.ToBoolean(reader["IsRead"]);
-                Message message = new Message(messageId, messageFrom, messageTo, messageText, isRead);
+                date = Convert.ToDateTime(reader["MessageDate"]);
+                Message message = new Message(messageId, messageFrom, messageTo, messageText, date, isRead);
                 allMessages.Add(message);
             }
             con.Close();
@@ -890,14 +892,15 @@ namespace AppVoice
             return unreadMessages;
         }
 
-        public bool sendMessage(string messageFrom, string messageTo, string messageText)
+        public bool sendMessage(Message message)
         {
             con.Open();
             MySqlCommand comm = con.CreateCommand();
-            comm.CommandText = "INSERT INTO Messages(MessageFrom, MessageTo, MessageText) VALUES(@messageFrom, @messageTo, @MessageText)";
-            comm.Parameters.AddWithValue("@messageFrom", messageFrom);
-            comm.Parameters.AddWithValue("@messageTo", messageTo);
-            comm.Parameters.AddWithValue("@messageText", messageText);
+            comm.CommandText = "INSERT INTO Messages(MessageFrom, MessageTo, Message, MessageDate) VALUES(@messageFrom, @messageTo, @message, @messageDate)";
+            comm.Parameters.AddWithValue("@messageFrom", message.MessageFrom);
+            comm.Parameters.AddWithValue("@messageTo", message.MessageTo);
+            comm.Parameters.AddWithValue("@message", message.MessageText);
+            comm.Parameters.AddWithValue("@messageDate", message.MessageDate);
 
             //  con.Close();
             if (comm.ExecuteNonQuery() > 0)

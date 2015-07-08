@@ -22,6 +22,60 @@ namespace AppVoice
                 bl_patient = new Bl_Patient();
 
                 messages = bl_therapist.getAllMessages(therapistId);
+                //if((Request.QueryString["deleteId"] != null)
+                foreach (Message m in messages)
+                {
+                    Patient patient = bl_patient.getPatientDetails(m.MessageFrom);
+                   // checkBoxList.Items.Add(new ListItem("", ex.Id + ""));
+
+
+                    TableRow tRow = new TableRow();     // adding row
+                    TableCell cell1 = new TableCell();      // checkbox cell
+                    TableCell cell2 = new TableCell();      // exercise title cell
+                    TableCell cell3 = new TableCell();      // folder name cell
+                    TableCell cell4 = new TableCell();      // date cell
+                    TableCell cell5 = new TableCell();      // buttons
+
+                    //Button button = new Button();
+                    List<LinkButton> buttonList = new List<LinkButton>();
+                    LinkButton replyButton = new LinkButton();
+                    LinkButton seenButton = new LinkButton();
+
+                    replyButton.Text = "הגב";
+                    replyButton.CssClass = "btn btn-success";
+                    replyButton.PostBackUrl = "/Pages/NewMessage.aspx?patientId=" + patient.PatientId;
+
+                    seenButton.Text = "קראתי";
+                    seenButton.CssClass = "btn btn-warning";
+                    seenButton.PostBackUrl = "/Pages/Messages.aspx?seenId=" + m.MessageId;
+                    
+                    if (!buttonList.Contains(replyButton))
+                    {
+                        buttonList.Add(replyButton);
+                    }
+                    CheckBox checkbox = new CheckBox();
+                   
+                    cell1.Controls.Add(checkbox);
+                    cell2.Text = patient.FirstName + " " + patient.LastName;
+                    cell3.Text = m.MessageText;
+                    cell4.Text = m.MessageDate.Date + "";
+                    cell5.Controls.Add(replyButton);
+                    if (!m.IsRead)
+                    {
+                        cell5.Controls.Add(seenButton);
+                    }
+
+
+
+                    tRow.Cells.Add(cell1);
+                    tRow.Cells.Add(cell2);
+                    tRow.Cells.Add(cell3);
+                    tRow.Cells.Add(cell4);
+                    tRow.Cells.Add(cell5);
+
+
+                    Table.Rows.Add(tRow);
+                }
             }
             else
             {
@@ -31,7 +85,9 @@ namespace AppVoice
 
         protected void OnNewMessageButton_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/NewMessage.aspx");
+            Response.Redirect("/Pages/NewMessage.aspx");
         }
+
+      
     }
 }

@@ -64,9 +64,9 @@ namespace AppVoice
 
         }
 
-        public bool sendMessage(string messageFrom, string messageTo, string messageText)
+        public bool sendMessage(Message message)
         {
-            return dal_therapist.sendMessage(messageFrom, messageTo, messageText);
+            return dal_therapist.sendMessage(message);
         }
 
         /*  ****************************     Folder     ****************************  */

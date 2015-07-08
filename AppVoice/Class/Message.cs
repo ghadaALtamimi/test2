@@ -9,17 +9,23 @@ namespace AppVoice
     {
         private string messageFrom, messageTo, messageText;
         private bool isRead;
+        private DateTime date;
         private int messageId;
 
-        public Message(int messageId, string messageFrom, string messageTo, string messageText, bool isRead)
+        public Message(string messageFrom, string messageTo, string messageText, DateTime date, bool isRead)
         {
-            this.messageId = messageId;
             this.messageFrom = messageFrom;
             this.messageTo = messageTo;
             this.messageText = messageText;
+            this.date = date;
             this.isRead = isRead;
         }
 
+        public Message(int messageId, string messageFrom, string messageTo, string messageText, DateTime date, bool isRead) : this(messageFrom, messageTo, messageText, date, isRead)
+        {
+            this.messageId = messageId;
+           
+        }
 
         public int MessageId
         {
@@ -63,6 +69,17 @@ namespace AppVoice
             get
             {
                 return messageText;
+            }
+        }
+        public DateTime MessageDate
+        {
+            set
+            {
+                date = value;
+            }
+            get
+            {
+                return date;
             }
         }
         public bool IsRead

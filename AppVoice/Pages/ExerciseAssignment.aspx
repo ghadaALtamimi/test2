@@ -6,7 +6,6 @@
     <div class="container">
         <h2><span class="glyphicon glyphicon-th-list"></span>&nbsp&nbsp שיבוץ תרגילים </h2>
 
-        <div>
         <!-- Patient Panel -->
         <asp:Panel runat="server" ID="PanelFromPatient">
             <h3>
@@ -39,7 +38,7 @@
                 </table>
             </div> -->
         </asp:Panel>
-        </div>
+     
 
         <!-- Exercise Panel -->
 
