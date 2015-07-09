@@ -913,6 +913,22 @@ namespace AppVoice
             return false;
         }
 
+        public bool updateIsReadMessage(string messageId)
+        {
+            con.Open();
+            String updateDetails = "UPDATE Messages SET IsRead = '1' WHERE MessageId = '" + messageId + "'";
+            MySqlCommand command = new MySqlCommand(updateDetails, con);
+
+            if (command.ExecuteNonQuery() > 0)
+            {
+                con.Close();
+                return true;
+            }
+            con.Close();
+            return false;
+        
+        }
+
         /*  ****************************     Submitted Exercise     ****************************  */
         public List<SubmittedExercise> getSubmittedExercises(string licenseId)
         {

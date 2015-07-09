@@ -111,6 +111,9 @@ form {
     margin-top: 10%;
 }
 
+.left-buffer{
+     margin-left: 10px;
+}
 .top-padding {
     padding-top: 10px;
 }
@@ -244,6 +247,9 @@ select {
     padding-bottom: 0;
 }
 
+.bold {
+   font-weight: bold;
+}
 .badge {
     background: #e2671f;
     margin-right: 1px;

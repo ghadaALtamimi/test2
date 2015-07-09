@@ -21,6 +21,14 @@ namespace AppVoice
                 bl_therapist = new Bl_Therapist();
                 bl_patient = new Bl_Patient();
 
+                if (Request.QueryString["seenId"] != null)
+                {
+                    string messageId = Request.QueryString["seenId"];
+                    if(bl_therapist.updateIsReadMessage(messageId))
+                    {
+                        Response.Redirect("/Pages/Messages.aspx");
+                    }
+                }
                 messages = bl_therapist.getAllMessages(therapistId);
                 //if((Request.QueryString["deleteId"] != null)
                 foreach (Message m in messages)
@@ -30,7 +38,6 @@ namespace AppVoice
 
 
                     TableRow tRow = new TableRow();     // adding row
-                    TableCell cell1 = new TableCell();      // checkbox cell
                     TableCell cell2 = new TableCell();      // exercise title cell
                     TableCell cell3 = new TableCell();      // folder name cell
                     TableCell cell4 = new TableCell();      // date cell
@@ -42,7 +49,7 @@ namespace AppVoice
                     LinkButton seenButton = new LinkButton();
 
                     replyButton.Text = "הגב";
-                    replyButton.CssClass = "btn btn-success";
+                    replyButton.CssClass = "btn btn-success left-buffer";
                     replyButton.PostBackUrl = "/Pages/NewMessage.aspx?patientId=" + patient.PatientId;
 
                     seenButton.Text = "קראתי";
@@ -53,21 +60,20 @@ namespace AppVoice
                     {
                         buttonList.Add(replyButton);
                     }
-                    CheckBox checkbox = new CheckBox();
                    
-                    cell1.Controls.Add(checkbox);
                     cell2.Text = patient.FirstName + " " + patient.LastName;
                     cell3.Text = m.MessageText;
                     cell4.Text = m.MessageDate.Date + "";
                     cell5.Controls.Add(replyButton);
+
                     if (!m.IsRead)
                     {
+                        cell2.CssClass = "bold";
+                        cell3.CssClass = "bold";
+                        cell4.CssClass = "bold";
                         cell5.Controls.Add(seenButton);
                     }
 
-
-
-                    tRow.Cells.Add(cell1);
                     tRow.Cells.Add(cell2);
                     tRow.Cells.Add(cell3);
                     tRow.Cells.Add(cell4);
@@ -87,7 +93,7 @@ namespace AppVoice
         {
             Response.Redirect("/Pages/NewMessage.aspx");
         }
-
+    
       
     }
 }

@@ -68,6 +68,10 @@ namespace AppVoice
         {
             return dal_therapist.sendMessage(message);
         }
+         public bool updateIsReadMessage(string messageId)
+        {
+            return dal_therapist.updateIsReadMessage(messageId);
+        }
 
         /*  ****************************     Folder     ****************************  */
 
