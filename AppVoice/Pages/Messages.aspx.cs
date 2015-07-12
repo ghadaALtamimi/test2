@@ -79,7 +79,6 @@ namespace AppVoice
                     tRow.Cells.Add(cell4);
                     tRow.Cells.Add(cell5);
 
-
                     Table.Rows.Add(tRow);
                 }
             }
