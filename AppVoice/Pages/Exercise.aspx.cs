@@ -262,9 +262,10 @@ namespace AppVoice
             OAuthToken accessToken = new OAuthToken(CONSTANT.TOKEN, CONSTANT.SECRET);
             var api = new DropboxApi(CONSTANT.APP_KEY, CONSTANT.APP_SECRET, accessToken);
             // save to computer
-            ImageUpload.SaveAs(filePath);
+            FileUpload.SaveAs(filePath);
             // save to dropbox
             var file = api.UploadFile("dropbox", FileUpload.FileName, @filePath);           //  UploadFile(string root, string path, string file)  -- uploading file to dropbox folder
+            bl_therapist.updateFilePathFromExercise(exercise, FileUpload.FileName);
         }
 
 
